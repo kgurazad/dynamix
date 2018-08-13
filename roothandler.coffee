@@ -1,4 +1,5 @@
 main = require './main'
+console.log main
 {Room} = require './room'
 
 class RootHandler
