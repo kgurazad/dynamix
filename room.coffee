@@ -24,7 +24,9 @@ class Room
         @word = 0;        
 
     handle: (msg, ws) ->
+        console.log msg
         if msg.type == 'next'
+            console.log 'next'
             @refreshQuestion()
             @interval = global.setInterval () ->
                 @wss.broadcast JSON.stringify {
