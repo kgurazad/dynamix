@@ -9,7 +9,7 @@ mongoose.connect process.env.DB
 {Person} = require './person'
 
 @rooms = {
-    '': new RootHandler(),
+    '': new RootHandler()
 }
 @guest = new Person('guest')
 
