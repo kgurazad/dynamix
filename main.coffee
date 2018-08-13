@@ -26,7 +26,7 @@ mongoose.connect process.env.DB
     ws.person = @guest #
     ws.room = ''
     ws.on 'message', (msg) ->
-        rooms[room].handle JSON.parse msg, ws
+        @rooms[room].handle JSON.parse msg, ws
         # so clean *fangirls about simplicity in code*
         # reader, you should have seen the old dynamix ws.onmessage function.
         return
