@@ -21,12 +21,13 @@ mongoose.connect process.env.DB
             ws.send data
         return
     return
-
+    
+self = this
 @wss.on 'connection', (ws) ->
-    ws.person = @guest #
+    ws.person = self.guest #
     ws.room = ''
     ws.on 'message', (msg) ->
-        @rooms[ws.room].handle JSON.parse msg, ws
+        self.rooms[ws.room].handle JSON.parse msg, ws
         # so clean *fangirls about simplicity in code*
         # reader, you should have seen the old dynamix ws.onmessage function.
         return
