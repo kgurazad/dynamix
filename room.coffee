@@ -24,7 +24,7 @@ class Room
         @word = 0;        
 
     handle: (msg, ws) ->
-        if msg.type == next
+        if msg.type == 'next'
             @refreshQuestion()
             @interval = global.setInterval () ->
                 @wss.broadcast JSON.stringify {
