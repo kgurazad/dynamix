@@ -17,7 +17,7 @@ wss = new wsx.Server {port: process.env.PORT || 2020}
 rooms[''] = { # a root handler, yay
     handle: (msg, ws) ->
         if msg.type == 'entry'
-            ws.person = guest # fix this eventually, thanks
+            ws.person = people[msg.person] || people.guest
             ws.room = msg.room
             rooms[msg.room] = new Room msg.room if !rooms[msg.room]?
             rooms[msg.room][people[msg.person] || people.guest] = 0
