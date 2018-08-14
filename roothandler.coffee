@@ -1,4 +1,5 @@
 {Room} = require './room'
+console.log 'requiring stuff and whatnot'
 
 class RootHandler
     construtor: () ->
