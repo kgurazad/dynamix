@@ -3,7 +3,6 @@ console.log 'up!'
 wsx = require 'ws'
 mongoose = require 'mongoose'
 mongoose.connect process.env.DB
-{RootHandler} = require './roothandler'
 {Room} = require './room'
 {Question} = require './question'
 {Person} = require './person'
