@@ -35,4 +35,4 @@ wss.on 'connection', (ws) ->
 exports.wss = wss
 exports.rooms = rooms
 exports.guest = guest
-console.log 'exports ' + JSON.stringify exports
+console.log 'exports ' + exports.wss? + ' ' + exports.rooms? + ' ' + exports.guest?
