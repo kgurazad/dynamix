@@ -8,15 +8,10 @@ mongoose.connect process.env.DB
 {Question} = require './question'
 {Person} = require './person'
 
-rooms = {
-    '': new RootHandler()
-}
-exports.rooms = rooms
+rooms = {}
 guest = new Person('guest')
-exports.guest = guest
 
 wss = new wsx.Server {port: process.env.PORT || 2020}
-exports.wss = wss
 
 wss.broadcast = (data) ->
     wss.clients.forEach (ws) ->
@@ -34,5 +29,8 @@ wss.on 'connection', (ws) ->
         # reader, you should have seen the old dynamix ws.onmessage function.
         return
     return
-
+exports.rooms = rooms
+exports.guest = guest
+exports.wss = wss
+rooms[''] = new RootHandler()
 console.log 'exports ' + exports.wss? + ' ' + exports.rooms? + ' ' + exports.guest?
