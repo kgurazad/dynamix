@@ -1,4 +1,3 @@
-main = require './main'
 {Question} = require './question'
 
 class Room
@@ -13,7 +12,7 @@ class Room
         @readSpeed = args.readSpeed || 200
         @timeout = args.timeout || 6000
         @people = args.people || {}
-        @wss = main.wss
+        @wss = args.wss
         @word = 0
         @questionText = @question.text.split
         @interval = null

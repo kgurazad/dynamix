@@ -9,9 +9,27 @@ mongoose.connect process.env.DB
 {Person} = require './person'
 
 rooms = {}
+# maybe keep an active ppl object in the Person class?
 guest = new Person('guest')
 
 wss = new wsx.Server {port: process.env.PORT || 2020}
+
+rooms[''] = { # a root handler, yay
+    handle: (msg, ws) ->
+        if msg.type == 'entry'
+            ws.person = guest # fix this eventually, thanks
+            ws.room = msg.room
+            rooms[msg.room] = new Room() if !rooms[msg.room]?
+            rooms[msg.room].people[msg.person] = 0
+            wss.broadcast JSON.stringify {
+                timestamp: msg.timestamp,
+                room: msg.room,
+                person: msg.person,
+                type: 'entry'
+            }
+        return
+    # tabs
+}
 
 wss.broadcast = (data) ->
     wss.clients.forEach (ws) ->
@@ -29,8 +47,3 @@ wss.on 'connection', (ws) ->
         # reader, you should have seen the old dynamix ws.onmessage function.
         return
     return
-exports.rooms = rooms
-exports.guest = guest
-exports.wss = wss
-console.log 'exports ' + exports.wss? + ' ' + exports.rooms? + ' ' + exports.guest?
-rooms[''] = new RootHandler()
