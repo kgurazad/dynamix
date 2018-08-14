@@ -8,8 +8,9 @@ mongoose.connect process.env.DB
 {Person} = require './person'
 
 rooms = {}
-# maybe keep an active ppl object in the Person class?
-guest = new Person('guest')
+people = {
+    'guest': new Person 'guest'
+}
 
 wss = new wsx.Server {port: process.env.PORT || 2020}
 
@@ -19,7 +20,7 @@ rooms[''] = { # a root handler, yay
             ws.person = guest # fix this eventually, thanks
             ws.room = msg.room
             rooms[msg.room] = new Room msg.room if !rooms[msg.room]?
-            rooms[msg.room][people[msg.person]] = 0
+            rooms[msg.room][people[msg.person] || people['guest']] = 0
             wss.broadcast JSON.stringify {
                 timestamp: msg.timestamp,
                 room: msg.room,
