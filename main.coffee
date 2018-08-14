@@ -8,31 +8,31 @@ mongoose.connect process.env.DB
 {Question} = require './question'
 {Person} = require './person'
 
-@rooms = {
+rooms = {
     '': new RootHandler()
 }
-@guest = new Person('guest')
+guest = new Person('guest')
 
-@wss = new wsx.Server {port: process.env.PORT || 2020}
+wss = new wsx.Server {port: process.env.PORT || 2020}
 
-@wss.broadcast = (data) ->
-    @wss.clients.forEach (ws) ->
+wss.broadcast = (data) ->
+    wss.clients.forEach (ws) ->
         if ws.readyState == wsx.OPEN
             ws.send data
         return
     return
     
-self = this
-@wss.on 'connection', (ws) ->
-    ws.person = self.guest
+wss.on 'connection', (ws) ->
+    ws.person = guest
     ws.room = ''
     ws.on 'message', (msg) ->
-        self.rooms[ws.room].handle JSON.parse(msg), ws
+        rooms[ws.room].handle JSON.parse(msg), ws
         # so clean *fangirls about simplicity in code*
         # reader, you should have seen the old dynamix ws.onmessage function.
         return
     return
 
-exports.wss = @wss
-exports.rooms = @rooms
-exports.guest = @guest
+exports.wss = wss
+exports.rooms = rooms
+exports.guest = guest
+console.log 'exports ' + exports
