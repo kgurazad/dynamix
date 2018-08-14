@@ -11,9 +11,12 @@ mongoose.connect process.env.DB
 rooms = {
     '': new RootHandler()
 }
+exports.rooms = rooms
 guest = new Person('guest')
+exports.guest = guest
 
 wss = new wsx.Server {port: process.env.PORT || 2020}
+exports.wss = wss
 
 wss.broadcast = (data) ->
     wss.clients.forEach (ws) ->
@@ -32,7 +35,4 @@ wss.on 'connection', (ws) ->
         return
     return
 
-exports.wss = wss
-exports.rooms = rooms
-exports.guest = guest
 console.log 'exports ' + exports.wss? + ' ' + exports.rooms? + ' ' + exports.guest?
