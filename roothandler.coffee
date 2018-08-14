@@ -1,5 +1,5 @@
 main = require './main'
-console.log 'imports ' + main
+console.log 'imports ' + JSON.stringify main
 {Room} = require './room'
 
 class RootHandler
