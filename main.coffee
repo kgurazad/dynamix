@@ -20,7 +20,7 @@ rooms[''] = { # a root handler, yay
             ws.person = guest # fix this eventually, thanks
             ws.room = msg.room
             rooms[msg.room] = new Room msg.room if !rooms[msg.room]?
-            rooms[msg.room][people[msg.person] || people['guest']] = 0
+            rooms[msg.room][people[msg.person] || people.guest] = 0
             wss.broadcast JSON.stringify {
                 timestamp: msg.timestamp,
                 room: msg.room,
@@ -39,7 +39,7 @@ wss.broadcast = (data) ->
     return
     
 wss.on 'connection', (ws) ->
-    ws.person = guest
+    ws.person = people.guest
     ws.room = ''
     ws.on 'message', (msg) ->
         rooms[ws.room].handle JSON.parse(msg), ws
