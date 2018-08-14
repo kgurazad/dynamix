@@ -32,5 +32,5 @@ wss.on 'connection', (ws) ->
 exports.rooms = rooms
 exports.guest = guest
 exports.wss = wss
-rooms[''] = new RootHandler()
 console.log 'exports ' + exports.wss? + ' ' + exports.rooms? + ' ' + exports.guest?
+rooms[''] = new RootHandler()
