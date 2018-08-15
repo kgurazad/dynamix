@@ -20,9 +20,7 @@ rooms[''] = { # a root handler, yay
             ws.person = people[msg.person] || people.guest
             ws.room = msg.room
             if !rooms[msg.room]
-                console.log 'making a room!'
                 args = {name: msg.room, wss: wss}
-                console.log args
                 rooms[msg.room] = new Room args 
             rooms[msg.room][people[msg.person] || people.guest] = 0
             wss.broadcast JSON.stringify {

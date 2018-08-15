@@ -5,10 +5,6 @@ class Room
         return
         
     constructor: (args) ->
-        console.log 'erptdof'
-        console.log args.name
-        console.log args.wss
-        console.log 'ep4ortjd'
         # get or create from mongodb (one method, returns either the new or old)
         # ttl = 1 week
         @name = args.name
@@ -17,6 +13,7 @@ class Room
         @timeout = args.timeout || 6000
         @people = args.people || {}
         @wss = args.wss
+        console.log @wss
         @word = 0
         @questionText = @question.text.split
         @interval = null
