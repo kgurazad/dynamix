@@ -6,7 +6,8 @@ class Room
         
     constructor: (args) ->
         console.log 'erptdof'
-        console.log args?
+        console.log args.name
+        console.log args.wss
         console.log 'ep4ortjd'
         # get or create from mongodb (one method, returns either the new or old)
         # ttl = 1 week
