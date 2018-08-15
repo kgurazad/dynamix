@@ -5,7 +5,7 @@ class Room
         return
         
     constructor: (args) ->
-        console.log JSON.stringify args + " args"
+        console.log JSON.stringify(args) + " args"
         # get or create from mongodb (one method, returns either the new or old)
         # ttl = 1 week
         @name = args.name
