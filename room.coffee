@@ -13,9 +13,8 @@ class Room
         @timeout = args.timeout || 6000
         @people = args.people || {}
         @wss = args.wss
-        console.log @wss
         @word = 0
-        @questionText = @question.text.split
+        @questionText = @question.text.split ' '
         @interval = null
         return
         
@@ -28,18 +27,19 @@ class Room
         if msg.type == 'next'
             console.log 'next'
             @refreshQuestion()
+            self = this
             @interval = global.setInterval () ->
-                @wss.broadcast JSON.stringify {
-                    room: @name,
+                self.wss.broadcast JSON.stringify {
+                    room: self.name,
                     type: 'word',
-                    text: @questionText[word]
+                    text: self.questionText[word]
                 }
-                @word++
-                if @word == @questionText.length
-                    @wss.broadcast JSON.stringify {
-                        room: @name,
+                self.word++
+                if self.word == @questionText.length
+                    self.wss.broadcast JSON.stringify {
+                        room: self.name,
                         type: 'eof',
-                        timeout: @timeout
+                        timeout: self.timeout
                     }
                     global.clearInterval @interval
                 # read word and increment
