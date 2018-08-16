@@ -32,7 +32,7 @@ class Room
                 self.wss.broadcast JSON.stringify {
                     room: self.name,
                     type: 'word',
-                    text: self.questionText[word]
+                    text: self.questionText[self.word]
                 }
                 self.word++
                 if self.word == @questionText.length
