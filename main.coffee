@@ -43,6 +43,7 @@ app.broadcast = (data) ->
 app.ws '/', (req, ws) ->
     ws.person = people.guest
     ws.room = ''
+    console.log 'we got a ws!'
     ws.on 'message', (msg) ->
         rooms[ws.room].handle JSON.parse(msg), ws
         # so clean *fangirls about simplicity in code*
