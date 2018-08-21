@@ -1,6 +1,6 @@
 console.log 'up!'
 # first commit - read a default question (protobowl error lel)
-wss = require('express')()
+app = require('express')()
 wsx = require('express-ws')(app)
 
 mongoose = require 'mongoose'
@@ -13,8 +13,6 @@ rooms = {}
 people = {
     'guest': new Person 'guest'
 }
-
-wss = new wsx.Server {port: process.env.PORT || 2020}
 
 rooms[''] = { # a root handler, yay
     handle: (msg, ws) ->
@@ -35,14 +33,14 @@ rooms[''] = { # a root handler, yay
     # tabs
 }
 
-wss.broadcast = (data) ->
-    wss.clients.forEach (ws) ->
+app.broadcast = (data) ->
+    app.clients.forEach (ws) ->
         if ws.readyState == wsx.OPEN
             ws.send data
         return
     return
     
-wss.on 'connection', (ws) ->
+app.ws '/', (req, ws) ->
     ws.person = people.guest
     ws.room = ''
     ws.on 'message', (msg) ->
