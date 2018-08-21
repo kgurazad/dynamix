@@ -23,8 +23,11 @@
   "homepage": "https://github.com/kgurazada/dynamix#readme",
   "dependencies": {
     "coffeescript": "^2.3.1",
+    "express": "^4.16.3",
+    "express-ws": "^4.0.0",
     "mongoose": "^5.2.7",
     "node-cron": "^1.2.1",
+    "npm": "^6.4.0",
     "ws": "^6.0.0"
   }
 }
