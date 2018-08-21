@@ -49,3 +49,5 @@ app.ws '/', (req, ws) ->
         # reader, you should have seen the old dynamix ws.onmessage function.
         return
     return
+    
+app.listen process.env.PORT || 2020
