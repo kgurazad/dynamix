@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      QuizBug 2
+    </title>
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="https://quizbug2.herokuapp.com/client.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://quizbug2.herokuapp.com/style.css">
+    <link rel="shortcut icon" type="image/x-icon" href="https://quizbug2.herokuapp.com/favicon.ico"/>
+  </head>
+  <body>
+    <div id="top">
+      <h1>
+        QuizBug Multiplayer
+      </h1>
+    </div>
+    <div id="main">
+      <button class="btn btn-primary btn-block" id="s">Search</button>
+      <button class="btn btn-dark btn-block" id="r">Randomize</button>
+      <button class="btn btn-success btn-block" id="n">Next</button>
+      <button class="btn btn-warning btn-block" id="p">Pause/Play</button>
+      <button class="btn btn-danger btn-block" id="b">Buzz</button>
+      <nav aria-label="breadcrumb"><ol id="metadata" class="breadcrumb">I contain metadata! (tournament name, difficulty, category, subcategory)</ol></nav>
+      <div id="question" class="jumbotron">Nothing right now!</div>
+      <div id="answer" class="alert alert-info">Answer shows up here!</div>
+    </div>
+    <div id="right">
+      <h5>Directions:</h1>
+      <ul>
+        <li>Press <code>space</code> to buzz</li>
+        <li>Press <code>q</code> to load questions</li>
+        <li>Press <code>r</code> to randomize question order</li>
+        <li>Press <code>n</code> to move on to the next question</li>
+        <li>Press <code>p</code> to play/pause read</li>
+        <li>Buttons generally do what they say...</li>
+      </ul>
+      <p>NOTE: Questions taken from QuizDB.</p>
+      <p>Made by Karan Gurazada. GitHub @ <a href="https://github.com/kgurazada/dynamix">https://github.com/kgurazada/quizbug2</a>.</p>
+      <br>
+      <input id="readSpeed" placeholder="120" value="120">
+      <input id="query" placeholder="search for...">
+      <input id="categories" placeholder="Science,History">
+      <input id="subcategories" placeholder="Science Physics,History European">
+      <input id="difficulties" placeholder="2,4,6,9">
+      <input id="tournaments" placeholder="2018 SMT,2011 MUT,HFT,2009">
+      <br>
+      <select id="searchType">
+        <option value="a">Answer</option>
+        <option value="q">Question</option>
+        <option value="qa">Question + Answer</option>
+      </select>
+      <br>
+      <button id="p" class="btn btn-light">Show/Hide Buttons</button>
+    </div>
+  </body>
+</html>
+
+
+
+  
