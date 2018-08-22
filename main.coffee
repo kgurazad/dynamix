@@ -55,7 +55,9 @@ wss.on 'connection', (ws) ->
     ws.room = ''
     console.log 'we got a ws!'
     ws.on 'message', (msg) ->
+        console.log 'msg:'
         console.log msg
+        console.log 'handling:'
         rooms[ws.room].handle JSON.parse(msg), ws
         # so clean *fangirls about simplicity in code*
         # reader, you should have seen the old dynamix ws.onmessage function.
