@@ -11,12 +11,12 @@ mongoose.connect process.env.DB
 {Question} = require './question'
 {Person} = require './person'
 
-app.get '/:room', (req, res) ->
-    res.sendFile __dirname+'/index.html'
-    return
-    
 app.get '/client.js', (req, res) ->
     res.sendFile __dirname+'/client.js'
+    return
+
+app.get '/:room', (req, res) ->
+    res.sendFile __dirname+'/index.html'
     return
 
 rooms = {}
@@ -42,8 +42,6 @@ rooms[''] = { # a root handler, yay
         return
     # tabs
 }
-
-
 
 wss.broadcast = (data) ->
     wss.clients.forEach (ws) ->
