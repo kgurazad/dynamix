@@ -2,8 +2,8 @@ console.log 'up!'
 # first commit - read a default question (protobowl error lel)
 srv = require('express')()
 wsx = require('express-ws')(srv)
-app = srv.app
-wss = srv.getWss()
+app = wsx.app
+wss = wsx.getWss()
 
 mongoose = require 'mongoose'
 mongoose.connect process.env.DB
