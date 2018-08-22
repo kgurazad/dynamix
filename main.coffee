@@ -64,4 +64,5 @@ wss.on 'connection', (ws) ->
         return
     return
     
-app.listen process.env.PORT || 2020
+app.listen process.env.PORT || 2020, () ->
+    console.log 'listening on ' + process.env.PORT || 2020

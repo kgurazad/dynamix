@@ -5,11 +5,17 @@ $(document).ready () ->
     ws = new WebSocket 'wss://dynamix.herokuapp.com/'
     $(document).keyup () ->
         if event.which == 13
-            ws.send "bleebleyarg"
+            #
         else if event.which == 83
             ws.send search()
         else if event.which == 67 || event.which == 191
-            openchat() 
+            # openchat()
+            ws.send JSON.stringify {
+                room: room,
+                person: name,
+                type: 'chat',
+                value: 'hello world, and welcome! you have been censored, naturally.'
+            } 
         return
     render = (msg) ->
         return    
@@ -21,6 +27,6 @@ $(document).ready () ->
         }
         return
     ws.onmessage  = (msg) ->
-        render msg
+        alert msg
         return
     return
