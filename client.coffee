@@ -5,11 +5,11 @@ $(document).ready () ->
     ws = new WebSocket 'wss://dynamix.herokuapp.com/'
     $(document).keyup () ->
         if event.which == 13
+            ws.send "bleebleyarg"
         else if event.which == 83
             ws.send search()
         else if event.which == 67 || event.which == 191
-            openchat()
-        else if 
+            openchat() 
         return
     render = (msg) ->
         return    
