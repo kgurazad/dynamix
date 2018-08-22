@@ -1,13 +1,23 @@
 console.log 'up!'
 # first commit - read a default question (protobowl error lel)
-app = require('express')()
-wsx = require('express-ws')(app)
+srv = require('express')()
+wsx = require('express-ws')(srv)
+app = srv.app
+wss = srv.getWss()
 
 mongoose = require 'mongoose'
 mongoose.connect process.env.DB
 {Room} = require './room'
 {Question} = require './question'
 {Person} = require './person'
+
+app.get '/:room', (req, res) ->
+    res.sendFile __dirname+'/index.html'
+    return
+    
+app.get '/client.js', (req, res) ->
+    res.sendFile __dirname+'/client.js'
+    return
 
 rooms = {}
 people = {
@@ -33,18 +43,21 @@ rooms[''] = { # a root handler, yay
     # tabs
 }
 
-app.broadcast = (data) ->
-    app.clients.forEach (ws) ->
+
+
+wss.broadcast = (data) ->
+    wss.clients.forEach (ws) ->
         if ws.readyState == wsx.OPEN
             ws.send data
         return
     return
     
-app.ws '/', (req, ws) ->
+wss.on 'connection', (ws) ->
     ws.person = people.guest
     ws.room = ''
     console.log 'we got a ws!'
     ws.on 'message', (msg) ->
+        console.log msg
         rooms[ws.room].handle JSON.parse(msg), ws
         # so clean *fangirls about simplicity in code*
         # reader, you should have seen the old dynamix ws.onmessage function.
