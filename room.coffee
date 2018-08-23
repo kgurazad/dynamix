@@ -15,7 +15,7 @@ class Room
         @people = args.people || {}
         @wss = args.wss
         @word = 0
-        @questionText = @question.text.split ' '
+        @questionText = @question.text.question.split ' '
         @interval = null
         @currentlyBuzzing = null
         @questionFinished = false
@@ -56,8 +56,7 @@ class Room
                 # read word and increment
                 # don't forget finishing and whatnot
                 return
-            , @readSpeed
-            
+            , @readSpeed    
         @wss.broadcast JSON.stringify msg
         return
         
