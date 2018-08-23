@@ -84,20 +84,20 @@ $(document).ready () ->
     
     $(document).keyup () ->
         if event.which == 13
-            ws.send getInputVal() if buzzing || chatting
+            window.ws.send getInputVal() if buzzing || chatting
             return
         if document.activeElement.tagName != 'BODY'
             return
         else if event.which == 32
-            ws.send openbuzz()
+            window.ws.send openbuzz()
         else if event.which == 67 || event.which == 191
-            ws.send openchat()
+            window.ws.send openchat()
         else if event.which == 83
-            ws.send search()
+            window.ws.send search()
         else if event.which == 78
-            ws.send next()
+            window.ws.send next()
         else if event.which == 80
-            ws.send pauseOrPlay()
+            window.ws.send pauseOrPlay()
         return
         
     render = (msg) ->
