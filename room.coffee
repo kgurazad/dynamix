@@ -23,7 +23,9 @@ class Room
         
     refreshQuestion: () ->
         @question = new Question();
+        @questionText = @question.text.question.split ' '
         @word = 0;        
+        return
         
     finishQuestion: () ->
         @wss.broadcast {
