@@ -1,4 +1,10 @@
+window.addEventListener 'keydown', (e) ->
+  if e.keyCode == 32 and e.target == document.body
+    e.preventDefault()
+  return
+
 $(document).ready () ->
+    $('.hide-on-start').hide()
     buzzing = false
     chatting = false
     $('#button-controller').click () ->
