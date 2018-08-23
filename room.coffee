@@ -23,8 +23,6 @@ class Room
         @word = 0;        
 
     handle: (msg, ws) ->
-        console.log this
-        console.log 'xkcd'
         if msg.type == 'next'
             console.log 'next'
             @refreshQuestion()

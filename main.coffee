@@ -62,6 +62,8 @@ rooms[''] = { # a root handler, yay
 wss.broadcast = (data) ->
     console.log 'broadcasting'
     wss.getWss().clients.forEach (ws) ->
+        console.log 'ip:'
+        console.log ws._socket.remoteAddress
         if ws.readyState == wss.getWss().OPEN
             ws.send data
         return
