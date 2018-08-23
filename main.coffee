@@ -13,6 +13,9 @@ app.ws '/', (ws, req) ->
     ws.person = people.guest
     ws.room = ''
     ws.on 'message', (msg) ->
+        if msg == "ping"
+            ws.send "pong"
+            return
         rooms[ws.room].handle JSON.parse(msg), ws
         # so clean *fangirls about simplicity in code*
         # reader, you should have seen the old dynamix ws.onmessage function.

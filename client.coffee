@@ -17,6 +17,10 @@ $(document).ready () ->
     name = url.searchParams.get('name') || "comrade popov"
     room = window.location.pathname.substring(1)
     ws = new WebSocket 'wss://dynamix.herokuapp.com/'
+    setInterval () ->
+        ws.send "ping"
+        return
+    , 30000
     openbuzz = () ->
         $('#main-input').attr 'placeholder', 'buzz...'
         $('#main-input').show()
