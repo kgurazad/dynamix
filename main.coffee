@@ -10,7 +10,7 @@ mongoose.connect process.env.DB
 {Person} = require './person'
 
 app.ws '/', (ws, req) ->
-    ws.person = people.guest
+    ws.person = People.getPerson 'guest'
     ws.room = ''
     ws.on 'message', (msg) ->
         if msg == "ping"
@@ -35,9 +35,6 @@ app.get '/:room', (req, res) ->
     return
 
 rooms = {}
-people = {
-    'guest': new Person 'guest'
-}
 
 rooms[''] = { # a root handler, yay
     handle: (msg, ws) ->
@@ -58,7 +55,20 @@ rooms[''] = { # a root handler, yay
     # tabs
 }
 
+htmlEncode = (text) -> # beware, messy regexes ahead
+    rx = [
+        [/&/g, '&amp;']
+        [/</g, '&lt;']
+        [new RegExp("'", 'g'), '&#39;']
+        [new RegExp('"', 'g'), '&quot;']
+    ]
+    for r in rx
+        text=text.replace r[0], r[1]
+    return text
+
 wss.broadcast = (data) ->
+    for k, v of data
+        data[k] = htmlEncode v
     wss.getWss().clients.forEach (ws) ->
         ws.send data
         return

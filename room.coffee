@@ -1,6 +1,7 @@
 {Question} = require './question'
 
 class Room
+
     createRoom: (args) ->
         return
         
@@ -16,12 +17,21 @@ class Room
         @word = 0
         @questionText = @question.text.split ' '
         @interval = null
+        @currentlyBuzzing = null
+        @questionFinished = false
         return
         
     refreshQuestion: () ->
         @question = new Question();
         @word = 0;        
-
+        
+    finishQuestion: () ->
+        @wss.broadcast {
+            room: @name,
+            type: 'finishQuestion',
+            answer: @question.text.answer
+        }
+        
     handle: (msg, ws) ->
         if msg.type == 'next'
             @refreshQuestion()
@@ -36,10 +46,13 @@ class Room
                 if self.word == self.questionText.length
                     self.wss.broadcast JSON.stringify {
                         room: self.name,
-                        type: 'eof',
+                        type: 'endedQuestion',
                         timeout: self.timeout
                     }
                     global.clearInterval self.interval
+                    self.setTimeout () ->
+                        self.finishQuestion()
+                    , self.timeout
                 # read word and increment
                 # don't forget finishing and whatnot
                 return
