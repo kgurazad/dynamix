@@ -59,8 +59,8 @@ rooms[''] = { # a root handler, yay
     # tabs
 }
 
-app.broadcast = (data) ->
-    app.getWss().clients.forEach (ws) ->
+srv.broadcast = (data) ->
+    srv.getWss().clients.forEach (ws) ->
         if ws.readyState == srv.getWss().OPEN
             ws.send data
         return
