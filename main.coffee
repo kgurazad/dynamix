@@ -1,7 +1,7 @@
 console.log 'up!'
 # first commit - read a default question (protobowl error lel)
 app = require('express')()
-srv = require('express-ws')(app)
+wss = require('express-ws')(app)
 
 mongoose = require 'mongoose'
 mongoose.connect process.env.DB
@@ -46,10 +46,10 @@ rooms[''] = { # a root handler, yay
             ws.person = people[msg.person] || people.guest
             ws.room = msg.room
             if !rooms[msg.room]
-                args = {name: msg.room, srv: srv}
+                args = {name: msg.room, wss: wss}
                 rooms[msg.room] = new Room args 
             rooms[msg.room][people[msg.person] || people.guest] = 0
-            srv.broadcast JSON.stringify {
+            wss.broadcast JSON.stringify {
                 timestamp: msg.timestamp,
                 room: msg.room,
                 person: msg.person,
@@ -59,9 +59,9 @@ rooms[''] = { # a root handler, yay
     # tabs
 }
 
-srv.broadcast = (data) ->
-    srv.getWss().clients.forEach (ws) ->
-        if ws.readyState == srv.getWss().OPEN
+wss.broadcast = (data) ->
+    wss.getWss().clients.forEach (ws) ->
+        if ws.readyState == wss.getWss().OPEN
             ws.send data
         return
     return
