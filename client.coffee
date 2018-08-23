@@ -76,6 +76,8 @@ $(document).ready () ->
                 ws.send getInputVal()
             else
                 # eh
+        if document.activeElement.tagName != 'BODY'
+            return
         else if event.which == 32
             ws.send openbuzz()
         else if event.which == 67 || event.which == 191
