@@ -1,7 +1,7 @@
 console.log 'up!'
 # first commit - read a default question (protobowl error lel)
-fst = require('express')()
-srv = require('express-ws')(fst)
+app = require('express')()
+srv = require('express-ws')(app)
 
 mongoose = require 'mongoose'
 mongoose.connect process.env.DB
@@ -9,15 +9,15 @@ mongoose.connect process.env.DB
 {Question} = require './question'
 {Person} = require './person'
 
-srv.get '/style.css', (req, res) ->
+app.get '/style.css', (req, res) ->
     res.sendFile __dirname+'/style.css'
     return
 
-srv.get '/client.js', (req, res) ->
+app.get '/client.js', (req, res) ->
     res.sendFile __dirname+'/client.js'
     return
 
-srv.get '/:room', (req, res) ->
+app.get '/:room', (req, res) ->
     res.sendFile __dirname+'/index.html'
     return
 
@@ -45,14 +45,14 @@ rooms[''] = { # a root handler, yay
     # tabs
 }
 
-srv.broadcast = (data) ->
-    srv.getWss().clients.forEach (ws) ->
+app.broadcast = (data) ->
+    app.getWss().clients.forEach (ws) ->
         if ws.readyState == srv.getWss().OPEN
             ws.send data
         return
     return
     
-wss.on 'connection', (ws) ->
+app.ws 'connection', (ws, req) ->
     ws.person = people.guest
     ws.room = ''
     console.log 'we got a ws!'
