@@ -24,6 +24,9 @@ class Room
     refreshQuestion: () ->
         @question = new Question();
         @questionText = @question.text.question.split ' '
+        console.log 'refreshing'
+        console.log @question
+        console.log @questionText
         @word = 0;        
         return
         
@@ -33,6 +36,8 @@ class Room
             type: 'finishQuestion',
             answer: @question.text.answer
         }
+        @questionFinished = true
+        return
         
     handle: (msg, ws) ->
         if msg.type == 'next'
