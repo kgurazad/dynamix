@@ -10,9 +10,11 @@ mongoose.connect process.env.DB
 {Person} = require './person'
 
 app.ws '/', (ws, req) ->
+    console.log 'we got a ws!'
     ws.person = People.getPerson 'guest'
     ws.room = ''
     ws.on 'message', (msg) ->
+        console.log 'msg:'
         console.log msg
         if msg == "ping"
             ws.send "pong"
