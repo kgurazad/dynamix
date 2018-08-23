@@ -1,7 +1,6 @@
 $(document).ready () ->
     buzzing = false
     chatting = false
-    $('.btn-block').hide()
     $('#button-controller').click () ->
         if $('.btn-block').is(':hidden')
             $('.btn-block').show()
@@ -12,15 +11,41 @@ $(document).ready () ->
     name = url.searchParams.get('name') || "comrade popov"
     room = window.location.pathname.substring(1)
     ws = new WebSocket 'wss://dynamix.herokuapp.com/'
+    openbuzz = () ->
+        $('#main-input').attr 'placeholder', 'buzz...'
+        $('#main-input').show()
+        window.setTimeout () ->
+            $('#main-input').focus()
+            return
+        , 30
+        buzzing = true
+        return
+    openchat = () ->
+        $('#main-input').attr 'placeholder', 'buzz...'
+        $('#main-input').show()
+        window.setTimeout () ->
+            $('#main-input').focus()
+            return
+        , 30
+        chatting = true
+        return
+    getInputVal = () ->
+        val = $('#main-input').val()
+        $('#main-input').hide()
+        window.setTimeout () ->
+            $('body').focus()
+            return
+        , 30
+        buzzing = false
+        chatting = false
+        return
     $(document).keyup () ->
         if event.which == 13
-            if buzzing
-                ws.send buzz()
-            else if chatting
-                ws.send chat()
+            if buzzing || chatting
+                ws.send getInputVal()
             else
                 # eh
-        else if event.which = 32
+        else if event.which == 32
             openbuzz()
         else if event.which == 83
             ws.send search()
