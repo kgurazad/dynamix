@@ -116,5 +116,5 @@ $(document).ready () ->
         return
         
     ws.onclose = () ->
-        $('#answer').after '<div class="alert alert-danger">You have been disconnected from the server, kurwa!</div>'
+        $('#answer').after '<div class="alert alert-danger">kurwa, yuo have been disconnected from the server!</div>'
     return

@@ -18,8 +18,10 @@ html,body {
     height: 100%;
     float: left;
 }
-.jumbotron,#answer {
+.jumbotron,.alert {
     padding: 1rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
     width: auto;
 }
 #b {
