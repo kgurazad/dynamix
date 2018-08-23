@@ -43,8 +43,8 @@ getInputVal = () ->
     , 30
     
     val = {room: room, person: name, type: 'buzz', value: val} if buzzing
-    val = {room: room, person: name, type: 'chat', value: val} else if chatting
-    val = {} else
+    val = {room: room, person: name, type: 'chat', value: val} if chatting
+    val = {} if !buzzing && !chatting
     buzzing = false
     chatting = false
     JSON.stringify val
