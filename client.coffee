@@ -15,7 +15,7 @@ $(document).ready () ->
     name = url.searchParams.get('name') || "comrade popov"
     room = window.location.pathname.substring(1)
     ws = new WebSocket 'wss://dynamix.herokuapp.com/'
-    winsow.setInterval () ->
+    window.setInterval () ->
         ws.send "ping"
         return
     , 30000
@@ -104,4 +104,6 @@ $(document).ready () ->
             type: 'entry'
         }
         return
+    ws.onclose = () ->
+        $('#answer').after '<div class="alert alert-danger">You have been disconnected from the server, kurwa!</div>'
     return
