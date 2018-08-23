@@ -1,7 +1,8 @@
 window.addEventListener 'keydown', (e) ->
-  if e.keyCode == 32 and e.target == document.body
-    e.preventDefault()
-  return
+    # stop that nasty autoscroll *shudder*
+    if e.keyCode == 32 and e.target == document.body
+        e.preventDefault()
+    return
 
 $(document).ready () ->
     $('.hide-on-start').hide()
@@ -17,12 +18,13 @@ $(document).ready () ->
     name = url.searchParams.get('name') || "comrade popov"
     room = window.location.pathname.substring(1)
     ws = new WebSocket 'wss://dynamix.herokuapp.com/'
-    setInterval () ->
+    winsow.setInterval () ->
         ws.send "ping"
         return
     , 30000
     openbuzz = () ->
         $('#main-input').attr 'placeholder', 'buzz...'
+        $('#main-input').val ''
         $('#main-input').show()
         window.setTimeout () ->
             $('#main-input').focus()
