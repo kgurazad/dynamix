@@ -12,7 +12,7 @@ class Room
         @readSpeed = args.readSpeed || 200
         @timeout = args.timeout || 6000
         @people = args.people || {}
-        @wss = args.wss
+        @srv = args.srv
         @word = 0
         @questionText = @question.text.split ' '
         @interval = null

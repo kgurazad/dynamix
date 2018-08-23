@@ -1,0 +1,35 @@
+html,body {
+    font-size: 13px;
+    height: 100%;
+    margin: 1%;
+}
+#right {
+    width: 24%;
+    height: 100%;
+    float: right;
+}
+#top {
+    width: 100%;
+    height: 60px;
+    float: top;
+}
+#main {
+    width: 74%;
+    height: 100%;
+    float: left;
+}
+.jumbotron,#answer {
+    padding: 1rem;
+    width: auto;
+}
+#b {
+    margin-bottom: 1%;
+}
+#button-controller {
+    margin-top: 1rem;
+}
+#r {
+    color: #fff;
+    background-color: #5518ab;
+    border-color: #5518ab;
+}

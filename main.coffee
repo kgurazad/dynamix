@@ -1,7 +1,7 @@
 console.log 'up!'
 # first commit - read a default question (protobowl error lel)
-srv = require('express')()
-wsx = require('express-ws')(srv)
+fst = require('express')()
+srv = require('express-ws')(fst)
 app = wsx.app
 wss = wsx.getWss()
 
@@ -11,11 +11,15 @@ mongoose.connect process.env.DB
 {Question} = require './question'
 {Person} = require './person'
 
-app.get '/client.js', (req, res) ->
+srv.get '/style.css', (req, res) ->
+    res.sendFile __dirname+'/style.css'
+    return
+
+srv.get '/client.js', (req, res) ->
     res.sendFile __dirname+'/client.js'
     return
 
-app.get '/:room', (req, res) ->
+srv.get '/:room', (req, res) ->
     res.sendFile __dirname+'/index.html'
     return
 
@@ -30,7 +34,7 @@ rooms[''] = { # a root handler, yay
             ws.person = people[msg.person] || people.guest
             ws.room = msg.room
             if !rooms[msg.room]
-                args = {name: msg.room, wss: wss}
+                args = {name: msg.room, srv: srv}
                 rooms[msg.room] = new Room args 
             rooms[msg.room][people[msg.person] || people.guest] = 0
             wss.broadcast JSON.stringify {
@@ -43,9 +47,9 @@ rooms[''] = { # a root handler, yay
     # tabs
 }
 
-wss.broadcast = (data) ->
-    wss.clients.forEach (ws) ->
-        if ws.readyState == wsx.OPEN
+srv.broadcast = (data) ->
+    srv.getWss().clients.forEach (ws) ->
+        if ws.readyState == srv.getWss().OPEN
             ws.send data
         return
     return
