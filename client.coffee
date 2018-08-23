@@ -3,82 +3,89 @@ window.addEventListener 'keydown', (e) ->
     if e.keyCode == 32 and e.target == document.body
         e.preventDefault()
     return
+    
+buzzing = false
+chatting = false
 
-$(document).ready () ->
-    $('.hide-on-start').hide()
+openbuzz = () ->
+    $('#main-input').attr 'placeholder', 'buzz...'
+    $('#main-input').val ''
+    $('#main-input').show()
+    
+    window.setTimeout () ->
+        $('#main-input').focus()
+        return
+    , 30
+    
+    buzzing = true
+    JSON.stringify {room: room, person: name, type: 'openbuzz'}
+    
+openchat = () ->
+    $('#main-input').attr 'placeholder', 'buzz...'
+    $('#main-input').val ''
+    $('#main-input').show()
+    
+    window.setTimeout () ->
+        $('#main-input').focus()
+        return
+    , 30
+    
+    chatting = true
+    JSON.stringify {room: room, person: name, type: 'openchat'}
+    
+getInputVal = () ->
+    val = $('#main-input').val()
+    $('#main-input').hide()
+    
+    window.setTimeout () ->
+        $('body').focus()
+        return
+    , 30
+    
+    val = {room: room, person: name, type: 'buzz', value: val} if buzzing
+    val = {room: room, person: name, type: 'chat', value: val} else if chatting
+    val = {} else
     buzzing = false
     chatting = false
+    JSON.stringify val
+    
+search = () ->
+    searchParameters = {
+        query: $('#query').val(),
+        categories: $('#categories').val(),
+        subcategories: $('#subcategories').val(),
+        difficulties: $('#difficulties').val(),
+        tournaments: $('#tournaments').val(),
+        searchType: $('#searchType').find(':selected').val()
+    }
+    JSON.stringify {room: room, person: name, type: 'search', searchParameters: searchParameters}
+    
+next = () ->
+    JSON.stringify {room: room, person: name, type: 'next'}
+        
+pauseOrPlay = () ->
+    JSON.stringify {room: room, person: name, type: 'pauseOrPlay'}
+        
+$(document).ready () ->
+    $('.hide-on-start').hide()
     $('#button-controller').click () ->
         $('.btn-block').toggle()
         return    
+    
     url = new URL window.location.href
     name = url.searchParams.get('name') || "comrade popov"
     room = window.location.pathname.substring(1)
     ws = new WebSocket 'wss://dynamix.herokuapp.com/'
+    
     window.setInterval () ->
         ws.send "ping"
         return
     , 30000
-    openbuzz = () ->
-        $('#main-input').attr 'placeholder', 'buzz...'
-        $('#main-input').val ''
-        $('#main-input').show()
-        window.setTimeout () ->
-            $('#main-input').focus()
-            return
-        , 30
-        buzzing = true
-        return JSON.stringify {
-            room: room,
-            person: name,
-            type: 'openbuzz'
-        }
-        return
-    openchat = () ->
-        $('#main-input').attr 'placeholder', 'buzz...'
-        $('#main-input').show()
-        window.setTimeout () ->
-            $('#main-input').focus()
-            return
-        , 30
-        chatting = true
-        return JSON.stringify {
-            room: room,
-            person: name,
-            type: 'openchat'
-        }
-    getInputVal = () ->
-        val = $('#main-input').val()
-        $('#main-input').hide()
-        window.setTimeout () ->
-            $('body').focus()
-            return
-        , 30
-        if buzzing
-            val = {
-                room: room,
-                person: name, 
-                type: 'buzz',
-                value: val
-            }
-        else if chatting
-            val = {
-                room: room,
-                person: name, 
-                type: 'chat',
-                value: val
-            }
-        else
-            val = {}
-        buzzing = false
-        chatting = false
-        return JSON.stringify val
+    
     $(document).keyup () ->
         if event.which == 13
-            if buzzing || chatting
-                ws.send getInputVal()
-            else
-                # eh
+            ws.send getInputVal() if buzzing || chatting
+            return
         if document.activeElement.tagName != 'BODY'
             return
         else if event.which == 32
@@ -92,11 +99,14 @@ $(document).ready () ->
         else if event.which == 80
             ws.send pauseOrPlay()
         return
+        
     render = (msg) ->
         return
+        
     ws.onmessage  = (event) ->
         $('#answer').after '<div class="msg">'+event.data+'</div>'
         return    
+        
     ws.onopen = () ->
         ws.send JSON.stringify {
             room: room,
@@ -104,6 +114,7 @@ $(document).ready () ->
             type: 'entry'
         }
         return
+        
     ws.onclose = () ->
         $('#answer').after '<div class="alert alert-danger">You have been disconnected from the server, kurwa!</div>'
     return
