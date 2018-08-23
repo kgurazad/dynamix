@@ -47,7 +47,7 @@ rooms[''] = { # a root handler, yay
             if !rooms[msg.room]
                 args = {name: msg.room, wss: wss}
                 rooms[msg.room] = new Room args 
-            rooms[msg.room][Person.getPerson(msg.person)] || Person.getPerson('guest')] = 0
+            rooms[msg.room][Person.getPerson(msg.person) || Person.getPerson('guest')] = 0
             wss.broadcast JSON.stringify {
                 timestamp: msg.timestamp,
                 room: msg.room,
