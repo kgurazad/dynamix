@@ -33,7 +33,7 @@ class Room
                     text: self.questionText[self.word]
                 }
                 self.word++
-                if self.word == @questionText.length
+                if self.word == self.questionText.length
                     self.wss.broadcast JSON.stringify {
                         room: self.name,
                         type: 'eof',
@@ -44,8 +44,8 @@ class Room
                 # don't forget finishing and whatnot
                 return
             , @readSpeed
-        else
-            @wss.broadcast JSON.stringify msg
+            
+        @wss.broadcast JSON.stringify msg
         return
         
 exports.Room = Room
