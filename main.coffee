@@ -9,6 +9,20 @@ mongoose.connect process.env.DB
 {Question} = require './question'
 {Person} = require './person'
 
+app.ws '/', (ws, req) ->
+    ws.person = people.guest
+    ws.room = ''
+    console.log 'we got a ws!'
+    ws.on 'message', (msg) ->
+        console.log 'msg:'
+        console.log msg
+        console.log 'handling:'
+        rooms[ws.room].handle JSON.parse(msg), ws
+        # so clean *fangirls about simplicity in code*
+        # reader, you should have seen the old dynamix ws.onmessage function.
+        return
+    return
+
 app.get '/style.css', (req, res) ->
     res.sendFile __dirname+'/style.css'
     return
@@ -52,19 +66,6 @@ app.broadcast = (data) ->
         return
     return
     
-app.ws 'connection', (ws, req) ->
-    ws.person = people.guest
-    ws.room = ''
-    console.log 'we got a ws!'
-    ws.on 'message', (msg) ->
-        console.log 'msg:'
-        console.log msg
-        console.log 'handling:'
-        rooms[ws.room].handle JSON.parse(msg), ws
-        # so clean *fangirls about simplicity in code*
-        # reader, you should have seen the old dynamix ws.onmessage function.
-        return
-    return
     
 app.listen process.env.PORT || 2020, () ->
     console.log 'listening on ' + process.env.PORT || 2020
