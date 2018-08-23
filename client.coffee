@@ -9,10 +9,7 @@ $(document).ready () ->
     buzzing = false
     chatting = false
     $('#button-controller').click () ->
-        if $('.btn-block').is(':hidden')
-            $('.btn-block').show()
-            return
-        $('.btn-block').hide()
+        $('.btn-block').toggle()
         return    
     url = new URL window.location.href
     name = url.searchParams.get('name') || "comrade popov"
