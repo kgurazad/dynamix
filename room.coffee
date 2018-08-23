@@ -40,6 +40,7 @@ class Room
         return
         
     handle: (msg, ws) ->
+        console.log msg
         if msg.type == 'next'
             @refreshQuestion()
             self = this
