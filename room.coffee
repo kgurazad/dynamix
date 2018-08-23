@@ -24,6 +24,7 @@ class Room
 
     handle: (msg, ws) ->
         console.log this
+        console.log 'xkcd'
         if msg.type == 'next'
             console.log 'next'
             @refreshQuestion()

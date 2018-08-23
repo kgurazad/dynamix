@@ -60,6 +60,7 @@ rooms[''] = { # a root handler, yay
 }
 
 wss.broadcast = (data) ->
+    console.log 'broadcasting'
     wss.getWss().clients.forEach (ws) ->
         if ws.readyState == wss.getWss().OPEN
             ws.send data
