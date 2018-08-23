@@ -18,6 +18,9 @@ $(document).ready () ->
             } 
         return
     render = (msg) ->
+        return
+    ws.onmessage  = (msg) ->
+        alert msg
         return    
     ws.onopen = () ->
         ws.send JSON.stringify {
@@ -25,8 +28,5 @@ $(document).ready () ->
             person: name,
             type: 'entry'
         }
-        return
-    ws.onmessage  = (msg) ->
-        alert msg
         return
     return
