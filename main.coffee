@@ -49,7 +49,7 @@ rooms[''] = { # a root handler, yay
                 args = {name: msg.room, srv: srv}
                 rooms[msg.room] = new Room args 
             rooms[msg.room][people[msg.person] || people.guest] = 0
-            wss.broadcast JSON.stringify {
+            srv.broadcast JSON.stringify {
                 timestamp: msg.timestamp,
                 room: msg.room,
                 person: msg.person,
