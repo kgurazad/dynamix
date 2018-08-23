@@ -5,6 +5,7 @@ class Room
         return
         
     constructor: (args) ->
+        console.log args
         # get or create from mongodb (one method, returns either the new or old)
         # ttl = 1 week
         @name = args.name
@@ -12,7 +13,7 @@ class Room
         @readSpeed = args.readSpeed || 200
         @timeout = args.timeout || 6000
         @people = args.people || {}
-        @wss = args.srv
+        @wss = args.wss
         @word = 0
         @questionText = @question.text.split ' '
         @interval = null
