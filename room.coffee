@@ -5,7 +5,6 @@ class Room
         return
         
     constructor: (args) ->
-        console.log args
         # get or create from mongodb (one method, returns either the new or old)
         # ttl = 1 week
         @name = args.name
@@ -24,7 +23,7 @@ class Room
         @word = 0;        
 
     handle: (msg, ws) ->
-        console.log msg
+        console.log this
         if msg.type == 'next'
             console.log 'next'
             @refreshQuestion()
