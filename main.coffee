@@ -42,7 +42,7 @@ rooms = {}
 rooms[''] = { # a root handler, yay
     handle: (msg, ws) ->
         if msg.type == 'entry'
-            ws.person = people[msg.person] || people.guest
+            ws.person = Person.getPerson(msg.person) || Person.getPerson('guest')
             ws.room = msg.room
             if !rooms[msg.room]
                 args = {name: msg.room, wss: wss}
