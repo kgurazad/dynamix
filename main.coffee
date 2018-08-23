@@ -11,7 +11,7 @@ mongoose.connect process.env.DB
 
 app.ws '/', (ws, req) ->
     console.log 'we got a ws!'
-    ws.person = People.getPerson 'guest'
+    ws.person = Person.getPerson 'guest'
     ws.room = ''
     ws.on 'message', (msg) ->
         console.log 'msg:'
