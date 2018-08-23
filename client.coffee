@@ -18,7 +18,7 @@ openbuzz = () ->
     , 30
     
     buzzing = true
-    JSON.stringify {room: room, person: name, type: 'openbuzz'}
+    JSON.stringify {room: window.room, person: window.name, type: 'openbuzz'}
     
 openchat = () ->
     $('#main-input').attr 'placeholder', 'buzz...'
@@ -31,7 +31,7 @@ openchat = () ->
     , 30
     
     chatting = true
-    JSON.stringify {room: room, person: name, type: 'openchat'}
+    JSON.stringify {room: window.room, person: window.name, type: 'openchat'}
     
 getInputVal = () ->
     val = $('#main-input').val()
@@ -42,8 +42,8 @@ getInputVal = () ->
         return
     , 30
     
-    val = {room: room, person: name, type: 'buzz', value: val} if buzzing
-    val = {room: room, person: name, type: 'chat', value: val} if chatting
+    val = {room: window.room, person: window.name, type: 'buzz', value: val} if buzzing
+    val = {room: window.room, person: window.name, type: 'chat', value: val} if chatting
     val = {} if !buzzing && !chatting
     buzzing = false
     chatting = false
@@ -58,13 +58,13 @@ search = () ->
         tournaments: $('#tournaments').val(),
         searchType: $('#searchType').find(':selected').val()
     }
-    JSON.stringify {room: room, person: name, type: 'search', searchParameters: searchParameters}
+    JSON.stringify {room: window.room, person: window.name, type: 'search', searchParameters: searchParameters}
     
 next = () ->
-    JSON.stringify {room: room, person: name, type: 'next'}
+    JSON.stringify {room: window.room, person: window.name, type: 'next'}
         
 pauseOrPlay = () ->
-    JSON.stringify {room: room, person: name, type: 'pauseOrPlay'}
+    JSON.stringify {room: window.room, person: window.name, type: 'pauseOrPlay'}
         
 $(document).ready () ->
     $('.hide-on-start').hide()
@@ -73,9 +73,9 @@ $(document).ready () ->
         return    
     
     url = new URL window.location.href
-    name = url.searchParams.get('name') || "comrade popov"
-    room = window.location.pathname.substring(1)
-    ws = new WebSocket 'wss://dynamix.herokuapp.com/'
+    window.name = url.searchParams.get('name') || "comrade popov"
+    window.room = window.location.pathname.substring(1)
+    window.ws = new WebSocket 'wss://dynamix.herokuapp.com/'
     
     window.setInterval () ->
         ws.send "ping"
@@ -103,11 +103,11 @@ $(document).ready () ->
     render = (msg) ->
         return
         
-    ws.onmessage  = (event) ->
+    window.ws.onmessage  = (event) ->
         $('#answer').after '<div class="msg">'+event.data+'</div>'
         return    
         
-    ws.onopen = () ->
+    window.ws.onopen = () ->
         ws.send JSON.stringify {
             room: room,
             person: name,
@@ -115,6 +115,6 @@ $(document).ready () ->
         }
         return
         
-    ws.onclose = () ->
+    window.ws.onclose = () ->
         $('#answer').after '<div class="alert alert-danger">kurwa, yuo have been disconnected from the server!</div>'
     return
