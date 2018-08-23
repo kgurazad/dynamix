@@ -39,7 +39,7 @@ class Room
                         type: 'eof',
                         timeout: self.timeout
                     }
-                    global.clearInterval @interval
+                    global.clearInterval self.interval
                 # read word and increment
                 # don't forget finishing and whatnot
                 return
