@@ -12,11 +12,7 @@ mongoose.connect process.env.DB
 app.ws '/', (ws, req) ->
     ws.person = people.guest
     ws.room = ''
-    console.log 'we got a ws!'
     ws.on 'message', (msg) ->
-        console.log 'msg:'
-        console.log msg
-        console.log 'handling:'
         rooms[ws.room].handle JSON.parse(msg), ws
         # so clean *fangirls about simplicity in code*
         # reader, you should have seen the old dynamix ws.onmessage function.
@@ -60,9 +56,7 @@ rooms[''] = { # a root handler, yay
 }
 
 wss.broadcast = (data) ->
-    console.log 'broadcasting'
     wss.getWss().clients.forEach (ws) ->
-        console.log data
         ws.send data
         return
     return

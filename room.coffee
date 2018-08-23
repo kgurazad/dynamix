@@ -24,7 +24,6 @@ class Room
 
     handle: (msg, ws) ->
         if msg.type == 'next'
-            console.log 'next'
             @refreshQuestion()
             self = this
             @interval = global.setInterval () ->
