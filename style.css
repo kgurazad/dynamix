@@ -33,3 +33,7 @@ html,body {
     background-color: #5518ab;
     border-color: #5518ab;
 }
+#main-input {
+    width: auto;
+    margin: 1rem;
+}

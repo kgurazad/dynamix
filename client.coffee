@@ -25,6 +25,11 @@ $(document).ready () ->
             return
         , 30
         buzzing = true
+        return JSON.stringify {
+            room: room,
+            person: name,
+            type: 'openbuzz'
+        }
         return
     openchat = () ->
         $('#main-input').attr 'placeholder', 'buzz...'
@@ -34,7 +39,11 @@ $(document).ready () ->
             return
         , 30
         chatting = true
-        return
+        return JSON.stringify {
+            room: room,
+            person: name,
+            type: 'openchat'
+        }
     getInputVal = () ->
         val = $('#main-input').val()
         $('#main-input').hide()
@@ -42,9 +51,25 @@ $(document).ready () ->
             $('body').focus()
             return
         , 30
+        if buzzing
+            val = {
+                room: room,
+                person: name, 
+                type: 'buzz',
+                value: val
+            }
+        else if chatting
+            val = {
+                room: room,
+                person: name, 
+                type: 'chat',
+                value: val
+            }
+        else
+            val = {}
         buzzing = false
         chatting = false
-        return
+        return JSON.stringify val
     $(document).keyup () ->
         if event.which == 13
             if buzzing || chatting
@@ -52,11 +77,15 @@ $(document).ready () ->
             else
                 # eh
         else if event.which == 32
-            openbuzz()
+            ws.send openbuzz()
+        else if event.which == 67 || event.which == 191
+            ws.send openchat()
         else if event.which == 83
             ws.send search()
-        else if event.which == 67 || event.which == 191
-            openchat()
+        else if event.which == 78
+            ws.send next()
+        else if event.which == 80
+            ws.send pauseOrPlay()
         return
     render = (msg) ->
         return
