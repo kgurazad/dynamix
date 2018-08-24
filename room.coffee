@@ -56,7 +56,7 @@ class Room
         return
         
     finishQuestion: () ->
-        console.log finishing
+        console.log 'finishing'
         @wss.broadcast JSON.stringify {
             room: @name,
             type: 'finishQuestion',
@@ -78,7 +78,7 @@ class Room
         else if msg.type == 'pauseOrPlay'
             @pause = !@pause
         else if msg.type == 'openbuzz'
-            if @personCurrentlyBuzzing
+            if @personCurrentlyBuzzing || @questionFinished
                 msg.approved = false
             else
                 @personCurrentlyBuzzing = Person.getPerson msg.person
