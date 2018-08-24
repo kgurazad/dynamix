@@ -66,6 +66,8 @@ class Room
         return  
         
     finishQuestion: () ->
+        global.clearInterval @interval
+        @questionFinished = true
         if !@question
             return
         console.log 'finishing'
@@ -74,8 +76,6 @@ class Room
             type: 'finishQuestion',
             question: @question
         }
-        global.clearInterval @interval
-        @questionFinished = true
         return
         
     handle: (msg, ws) ->
