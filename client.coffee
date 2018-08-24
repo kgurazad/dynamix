@@ -129,6 +129,7 @@ $(document).ready () ->
         else if msg.type == 'pauseOrPlay'
             $('#question').append '(+) '
         else if msg.type == 'finishQuestion'
+            alert 'question is finished!'
             text = msg.question.split ' '
             while word < text.length
                 $('#question').append text[word]
