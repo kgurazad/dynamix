@@ -103,6 +103,7 @@ class Question
                     room.questions = data
                     room.question = null
                     room.finishQuestion()
+                    global.clearInterval room.interval
                     room.next()
                     return
                 # comment
