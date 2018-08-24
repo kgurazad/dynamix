@@ -118,7 +118,11 @@ $(document).ready () ->
         return
         
     render = (msg) ->
-        if msg.type == 'openbuzz'
+        if msg.type == 'entry'
+            $('#answer').after '<div><i>' + msg.person + ' entered the room</i></div>'
+        else if msg.type == 'exit'
+            $('#answer').after '<div><i>' + msg.person + ' left the room</i></div>'
+        else if msg.type == 'openbuzz'
             if msg.approved
                 $('#question').append '(#) '
                 $('#answer').after '<div><i>' + msg.person + ' buzzed</i></div>'
