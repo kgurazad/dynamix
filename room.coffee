@@ -58,7 +58,7 @@ class Room
         return
         
     finishQuestion: () ->
-        @wss.broadcast {
+        @wss.broadcast JSON.stringify {
             room: @name,
             type: 'finishQuestion',
             answer: @question.text.answer

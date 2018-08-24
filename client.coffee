@@ -131,7 +131,7 @@ $(document).ready () ->
         return
         
     window.ws.onmessage  = (event) ->
-        render JSON.stringify event.data
+        render JSON.parse event.data
         return    
         
     window.ws.onopen = () ->
