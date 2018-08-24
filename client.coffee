@@ -69,6 +69,21 @@ pauseOrPlay = () ->
         
 $(document).ready () ->
     $('.hide-on-start').hide()
+    $('#s').click () ->
+        search()
+        return
+    $('#c').click () ->
+        openchat()
+        return
+    $('#n').click () ->
+        next()
+        return
+    $('#p').click () ->
+        pauseOrPlay()
+        return
+    $('#b').click () ->
+        openbuzz()
+        return
     $('#button-controller').click () ->
         $('.btn-block').toggle()
         return    
