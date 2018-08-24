@@ -3,8 +3,8 @@ console.log 'up!'
 app = require('express')()
 wss = require('express-ws')(app)
 
-mongoose = require 'mongoose'
-mongoose.connect process.env.DB
+# mongoose = require 'mongoose'
+# mongoose.connect process.env.DB
 {Room} = require './room'
 {Question} = require './question'
 {Person} = require './person'

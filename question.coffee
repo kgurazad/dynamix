@@ -1,3 +1,14 @@
+mongoose = require 'mongoose'
+mongoose.connect process.env.DB
+schema = mongoose.Schema({
+    text: Object,
+    difficulty: Number,
+    tournament: Object,
+    category: String,
+    subcategory: String
+})
+model = mongoose.model('qs',schema,'raw-quizdb-clean')
+
 class Question
     constructor: (args) ->
         # I swear I don't care
