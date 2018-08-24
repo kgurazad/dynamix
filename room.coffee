@@ -85,6 +85,7 @@ class Room
             #
         else if msg.type == 'buzz'
             console.log @personCurrentlyBuzzing
+            @pause = false
             if Person.getPerson msg.person != @personCurrentlyBuzzing
                 return
             else
