@@ -19,12 +19,18 @@ class Question
         
     @getQuestions: (initSearchParams, room) ->
         queryString = escapeRegExp initSearchParams.query
+        console.log queryString
         categories = initSearchParams.categories.split ','
+        console.log categories
         subcategories = initSearchParams.subcategories.split ','
+        console.log subcategories
         difficulties = initSearchParams.difficulties.split ','
+        console.log difficulties
         tournamentsRaw = initSearchParams.tournaments.split ','
+        console.log tournamentsRaw
         tournaments = {$or: []} # as it is in the mongodb
         searchType = initSearchParams.searchType
+        console.log searchType
         # basically get the same setup as in quizbug2
         searchParams = {$and: []}
 
