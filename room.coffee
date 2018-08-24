@@ -85,8 +85,7 @@ class Room
                 return
             if msg.type == 'next'
                 @readSpeed = msg.readSpeed
-                meta = {tournament: @question.tournament, difficulty: @question.difficulty, category: @question.category, subcategory: @question.subcategory}
-                msg.meta = meta
+                msg = {}
                 @next()
             else if msg.type == 'pauseOrPlay'
                 @pause = !@pause
