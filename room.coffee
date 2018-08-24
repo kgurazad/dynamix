@@ -16,13 +16,20 @@ class Room
         @people = args.people || {}
         @wss = args.wss
         @word = 0
-        @questionText = @question.text.question.split ' '
+        @questions = null
+        @question = null
+        @questionText = null
         @interval = null
         @personCurrentlyBuzzing = null
         @questionFinished = false
         return
         
     next: () ->
+        qIndex = @questions.indexOf @question
+        qIndex++
+        qIndex = qIndex % @questions.length
+        @question = @questions[qIndex]
+        @questionText = @question.text.question.split ' '
         @personCurrentlyBuzzing = null
         @questionFinished = false
         self = this
@@ -51,12 +58,6 @@ class Room
         , @readSpeed
         return  
         
-    refreshQuestion: () ->
-        @question = new Question();
-        @questionText = @question.text.question.split ' '
-        @word = 0
-        return
-        
     finishQuestion: () ->
         console.log 'finishing'
         @wss.broadcast JSON.stringify {
@@ -74,12 +75,14 @@ class Room
             ws.close()
             return
         if msg.type == 'next'
-            @refreshQuestion()
+            @readSpeed = msg.readSpeed
             meta = {tournament: @question.tournament, difficulty: @question.difficulty, category: @question.category, subcategory: @question.subcategory}
             msg.meta = meta
             @next()
         else if msg.type == 'pauseOrPlay'
             @pause = !@pause
+        else if msg.type == 'search'
+            Question.getQuestions msg.searchParameters, this
         else if msg.type == 'openbuzz'
             if @personCurrentlyBuzzing || @questionFinished
                 msg.approved = false

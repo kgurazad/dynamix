@@ -1,17 +1,39 @@
 class Question
-    constructor: () ->
-        @text = {
-            question: "This type of event occurs when the queried database returns an invalid question and is frequently indicative of a set of constraints which yields a null set. Certain manifestations of this kind of event lead to significant monetary loss and often result in large public relations campaigns to recover from the damaged brand valuation. This type of event is most common with computer software and hardware, and one way to diagnose this type of event when it happens on the bootstrapping phase of a computer operating system is by looking for the POST information. Kernel varieties of this event which are unrecoverable are referred to as namesake panics in the BSD/Mach hybrid microkernel which powers Mac OS X. The infamous Disk Operating System variety of this type of event is known for its primary color backdrop and continues to plague many of the contemporary descendents of DOS with code names such as Whistler, Longhorn and Chidori. For 10 points, name this event which happened right now.",
-            answer: "error <Kwok>" 
-        }
-        @difficulty = 10
-        @category = "Science"
-        @subcategory = "Computer Science"
-        @tournament = {
-            year: 1970,
-            name: "Guru Meditation Cup"
-        }
+    constructor: (args) ->
+        this = args
         return
-        # yay cp protobowl error tu
+        
+    @getQuestions: (searchParams, room) ->
+        model.count searchParams, (err, count) ->
+        console.log 'there are ' + count  + ' documents found'
+        if count > 1331
+            console.log 'aggregating!'
+            aggregateParams = [{$match: searchParams}, {$sample: {size: 1331}}]
+            console.log JSON.stringify aggregateParams
+            model.aggregate aggregateParams, (err, data) ->
+                console.log 'there are ' + data.length + ' documents to be sent'
+                if err?
+                    console.log err.stack
+                    return
+                room.questions = data
+                room.question = null
+                room.next()
+                return
+            # comment
+        else
+            console.log 'regular finding!'
+            model.find searchParams, (err, data) ->
+                console.log 'there are ' + data.length + ' documents to be sent'
+                if err?
+                    console.log err.stack
+                    return
+                room.questions = data
+                room.question = null
+                room.next()
+                return
+            # comment
+        return
+
+        
         
 exports.Question = Question
