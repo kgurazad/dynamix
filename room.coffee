@@ -17,9 +17,35 @@ class Room
         @word = 0
         @questionText = @question.text.question.split ' '
         @interval = null
-        @currentlyBuzzing = null
+        @personCurrentlyBuzzing = null
         @questionFinished = false
         return
+        
+    next: () ->
+        @refreshQuestion()
+        self = this
+        @interval = global.setInterval () ->
+            self.wss.broadcast JSON.stringify {
+                room: self.name,
+                type: 'word',
+                value: self.questionText[self.word]
+            }
+            self.word++
+            if self.word == self.questionText.length
+                self.wss.broadcast JSON.stringify {
+                    room: self.name,
+                    type: 'endedQuestion',
+                    timeout: self.timeout
+                }
+                global.clearInterval self.interval
+                global.setTimeout () ->
+                    self.finishQuestion()
+                , self.timeout
+            # read word and increment
+            # don't forget finishing and whatnot
+            return
+        , @readSpeed
+        return  
         
     refreshQuestion: () ->
         @question = new Question();
@@ -27,7 +53,7 @@ class Room
         console.log 'refreshing'
         console.log @question
         console.log @questionText
-        @word = 0;        
+        @word = 0
         return
         
     finishQuestion: () ->
@@ -40,32 +66,27 @@ class Room
         return
         
     handle: (msg, ws) ->
-        console.log msg
+        if ws.person != msg.person
+            ws.close()
+            return
         if msg.type == 'next'
-            @refreshQuestion()
-            self = this
-            @interval = global.setInterval () ->
-                self.wss.broadcast JSON.stringify {
-                    room: self.name,
-                    type: 'word',
-                    text: self.questionText[self.word]
-                }
-                self.word++
-                if self.word == self.questionText.length
-                    self.wss.broadcast JSON.stringify {
-                        room: self.name,
-                        type: 'endedQuestion',
-                        timeout: self.timeout
-                    }
-                    global.clearInterval self.interval
-                    self.setTimeout () ->
-                        self.finishQuestion()
-                    , self.timeout
-                # read word and increment
-                # don't forget finishing and whatnot
+            @next()
+        else if msg.type == 'openbuzz'
+            if @personCurrentlyBuzzing?
+                msg.approved = false
+            else
+                @personCurrentlyBuzzing = Person.getPerson msg.person
+                msg.approved = true
+            #
+        else if msg.type == 'buzz'
+            if Person.getPerson msg.person != @personCurrentlyBuzzing
                 return
-            , @readSpeed    
+            else
+                # only finish if right, but rn everything is right!
+                toFinish = true
+            @personCurrentlyBuzzing = null
         @wss.broadcast JSON.stringify msg
+        @finishQuestion if toFinish
         return
         
 exports.Room = Room

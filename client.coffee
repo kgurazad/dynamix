@@ -101,10 +101,37 @@ $(document).ready () ->
         return
         
     render = (msg) ->
+        if msg.type == 'openbuzz'
+            if msg.approved
+                $('#question').append '(#) '
+                $('#answer').after '<div><i>' + msg.person + ' buzzed</i></div>'
+            else
+                $('#answer').after '<div><i>' + msg.person + ' attempted an invalid buzz</i></div>'
+        else if msg.type == 'buzz'
+            $('#answer').after '<div><span color="#dc143c">' + msg.person + '<span> ' + msg.value + '</div>'
+        else if msg.type == 'word'
+            $('#question').append msg.value + ' '
+        else if msg.type == 'next'
+            $('#question').text ''
+            $('#metadata').empty()
+            $('#metadata').append('<li class="breadcrumb-item">'+msg.meta.tournament.year+' '+msg.meta.tournament.name+'</li>')
+            $('#metadata').append('<li class="breadcrumb-item">Difficulty Level '+msg.meta.difficulty+'</li>')
+            $('#metadata').append('<li class="breadcrumb-item">'+msg.meta.category+'</li>')
+            $('#metadata').append('<li class="breadcrumb-item">'+msg.meta.subcategory+'</li>')
+            $('#metadata').append('<li class="breadcrumb-item">QuizDB ID #'+msg.meta.id+'</li>')
+            $('#answer').text 'Press <code>space</code> to buzz.'
+        else if msg.type == 'search'
+            $('#answer').after '<div><i>' + msg.person + ' searched for questions</i></div>'
+        else if msg.type == 'chat'
+            $('#answer').after '<div><strong>' + msg.person + '</strong> ' + msg.value + '</div>'
+        else if msg.type == 'pauseOrPlay'
+            $('#question').append '(+) '
+        else if msg.type == 'finishQuestion'
+            $('#answer').text msg.answer
         return
         
     window.ws.onmessage  = (event) ->
-        $('#answer').after '<div class="msg">'+event.data+'</div>'
+        render JSON.stringify event.data
         return    
         
     window.ws.onopen = () ->
