@@ -62,7 +62,7 @@ search = () ->
     JSON.stringify {room: window.room, person: window.name, type: 'search', searchParameters: searchParameters}
     
 next = () ->
-    JSON.stringify {room: window.room, person: window.name, type: 'next', readSpeed: Number($('#query').val())}
+    JSON.stringify {room: window.room, person: window.name, type: 'next', readSpeed: Number($('#readSpeed').val())}
         
 pauseOrPlay = () ->
     JSON.stringify {room: window.room, person: window.name, type: 'pauseOrPlay'}

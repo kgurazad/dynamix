@@ -31,6 +31,11 @@ class Room
         qIndex = qIndex % @questions.length
         @question = @questions[qIndex]
         @questionText = @question.text.question.split ' '
+        @wss.broadcast JSON.stringify {
+            room: @name,
+            type: 'next',
+            meta: {tournament: @question.tournament, difficulty: @question.difficulty, category: @question.category, subcategory: @question.subcategory}
+        }
         @personCurrentlyBuzzing = null
         @questionFinished = false
         self = this
