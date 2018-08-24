@@ -24,6 +24,10 @@ app.ws '/', (ws, req) ->
         rooms[ws.room].handle {room: ws.room, person: ws.person.name, type: 'exit'}, ws
     return
 
+app.get '/', (req, res) ->
+    res.send 'homepage coming soon! basically go to any path on this server and you\'ll make yourself a nice room which you can share.'
+    return
+
 app.get '/style.css', (req, res) ->
     res.sendFile __dirname+'/style.css'
     return
@@ -40,19 +44,24 @@ rooms = {}
 
 rooms[''] = { # a root handler, yay
     handle: (msg, ws) ->
-        if msg.type == 'entry'
-            ws.person = Person.getPerson(msg.person) || Person.getPerson('guest')
-            ws.room = msg.room
-            if !rooms[msg.room]
-                args = {name: msg.room, wss: wss}
-                rooms[msg.room] = new Room args 
-            rooms[msg.room][Person.getPerson(msg.person) || Person.getPerson('guest')] = 0
-            wss.broadcast JSON.stringify {
-                timestamp: msg.timestamp,
-                room: msg.room,
-                person: msg.person,
-                type: 'entry'
-            }
+        try
+            if msg.type == 'entry'
+                ws.person = Person.getPerson(msg.person) || Person.getPerson('guest')
+                ws.room = msg.room
+                if !rooms[msg.room]
+                    args = {name: msg.room, wss: wss}
+                    rooms[msg.room] = new Room args 
+                rooms[msg.room][Person.getPerson(msg.person) || Person.getPerson('guest')] = 0
+                wss.broadcast JSON.stringify {
+                    timestamp: msg.timestamp,
+                    room: msg.room,
+                    person: msg.person,
+                    type: 'entry'
+                }
+            return
+        catch e
+            # don't even do anything
+            return
         return
     # tabs
 }
