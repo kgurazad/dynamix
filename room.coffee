@@ -87,15 +87,18 @@ class Room
                 @pause = true
             #
         else if msg.type == 'buzz'
+            console.log 'parsing buzz'
+            console.log msg
+            console.log @personCurrentlyBuzzing
             @pause = false
             if @personCurrentlyBuzzing.name != msg.person # fix this
                 console.log 'ya done messed up'
                 return
             console.log 'gut!'
-            # only finish if right, but rn everything is right!
             toFinish = true
             console.log toFinish
             @personCurrentlyBuzzing = null
+        
         @wss.broadcast JSON.stringify msg
         @finishQuestion if toFinish
         return
