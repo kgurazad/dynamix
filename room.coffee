@@ -24,6 +24,7 @@ class Room
         
     next: () ->
         @personCurrentlyBuzzing = null
+        @questionFinished = false
         self = this
         @interval = global.setInterval () ->
             if self.pause
