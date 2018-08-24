@@ -67,6 +67,7 @@ htmlEncode = (text) -> # beware, messy regexes ahead
     return text
 
 wss.broadcast = (data) ->
+    console.log JSON.parse(data).type
     for k, v of data
         data[k] = htmlEncode v
     wss.getWss().clients.forEach (ws) ->
