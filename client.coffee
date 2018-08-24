@@ -131,7 +131,7 @@ $(document).ready () ->
         else if msg.type == 'finishQuestion'
             text = msg.question.text.question.split ' '
             while word < text.length
-                $('#question').append text[word]
+                $('#question').append text[word] + ' '
                 word++
             $('#answer').text msg.question.text.answer
         return
