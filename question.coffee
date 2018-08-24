@@ -1,6 +1,6 @@
 class Question
     constructor: (args) ->
-        this = args
+        # I swear I don't care
         return
         
     @getQuestions: (searchParams, room) ->
