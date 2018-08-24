@@ -137,7 +137,7 @@ $(document).ready () ->
         return
         
     window.ws.onmessage  = (event) ->
-        render JSON.parse event.data
+        render JSON.parse event.data if event.data != 'pong'
         return    
         
     window.ws.onopen = () ->

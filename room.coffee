@@ -70,37 +70,41 @@ class Room
         return
         
     handle: (msg, ws) ->
-        toFinish = false
-        if ws.person != Person.getPerson msg.person
-            ws.close()
-            return
-        if msg.type == 'next'
-            @readSpeed = msg.readSpeed
-            meta = {tournament: @question.tournament, difficulty: @question.difficulty, category: @question.category, subcategory: @question.subcategory}
-            msg.meta = meta
-            @next()
-        else if msg.type == 'pauseOrPlay'
-            @pause = !@pause
-        else if msg.type == 'search'
-            Question.getQuestions msg.searchParameters, this
-        else if msg.type == 'openbuzz'
-            if @personCurrentlyBuzzing || @questionFinished
-                msg.approved = false
-            else
-                @personCurrentlyBuzzing = Person.getPerson msg.person
-                msg.approved = true
-                @pause = true
-            #
-        else if msg.type == 'buzz'
-            @pause = false
-            if !@personCurrentlyBuzzing
+        try
+            toFinish = false
+            if ws.person != Person.getPerson msg.person
+                ws.close()
                 return
-            if @personCurrentlyBuzzing.name != msg.person # fix this
-                return
-            toFinish = true
-            @personCurrentlyBuzzing = null 
-        @wss.broadcast JSON.stringify msg
-        @finishQuestion() if toFinish
+            if msg.type == 'next'
+                @readSpeed = msg.readSpeed
+                meta = {tournament: @question.tournament, difficulty: @question.difficulty, category: @question.category, subcategory: @question.subcategory}
+                msg.meta = meta
+                @next()
+            else if msg.type == 'pauseOrPlay'
+                @pause = !@pause
+            else if msg.type == 'search'
+                Question.getQuestions msg.searchParameters, this
+            else if msg.type == 'openbuzz'
+                if @personCurrentlyBuzzing || @questionFinished
+                    msg.approved = false
+                else
+                    @personCurrentlyBuzzing = Person.getPerson msg.person
+                    msg.approved = true
+                    @pause = true
+                #
+            else if msg.type == 'buzz'
+                @pause = false
+                if !@personCurrentlyBuzzing
+                    return
+                if @personCurrentlyBuzzing.name != msg.person # fix this
+                    return
+                toFinish = true
+                @personCurrentlyBuzzing = null 
+            @wss.broadcast JSON.stringify msg
+            @finishQuestion() if toFinish
+        catch e
+            console.log e.stack
+            @wss.broadcast 'temporary error'
         return
         
 exports.Room = Room
