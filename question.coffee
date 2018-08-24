@@ -91,6 +91,7 @@ class Question
                         return
                     room.questions = data
                     room.question = null
+                    room.finishQuestion()
                     room.next()
                     return
                 # comment
@@ -101,6 +102,7 @@ class Question
                         return
                     room.questions = data
                     room.question = null
+                    room.finishQuestion()
                     room.next()
                     return
                 # comment

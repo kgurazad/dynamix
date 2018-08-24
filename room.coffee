@@ -25,7 +25,7 @@ class Room
         return
         
     next: () ->
-        @finishQuestion() if @question
+        @finishQuestion()
         @word = 0
         qIndex = @questions.indexOf @question
         qIndex++
@@ -66,6 +66,8 @@ class Room
         return  
         
     finishQuestion: () ->
+        if !@question
+            return
         console.log 'finishing'
         @wss.broadcast JSON.stringify {
             room: @name,
