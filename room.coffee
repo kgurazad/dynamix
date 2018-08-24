@@ -23,8 +23,6 @@ class Room
         return
         
     next: () ->
-        @refreshQuestion()
-        meta = {tournament: @question.tournament, difficulty: @question.difficulty, category: @question.category, subcategory: @question.subcategory}
         self = this
         @interval = global.setInterval () ->
             if self.pause
@@ -32,8 +30,7 @@ class Room
             self.wss.broadcast JSON.stringify {
                 room: self.name,
                 type: 'word',
-                value: self.questionText[self.word],
-                meta: meta
+                value: self.questionText[self.word]
             }
             self.word++
             if self.word == self.questionText.length
@@ -72,6 +69,9 @@ class Room
             ws.close()
             return
         if msg.type == 'next'
+            @refreshQuestion()
+            meta = {tournament: @question.tournament, difficulty: @question.difficulty, category: @question.category, subcategory: @question.subcategory}
+            msg.meta = meta
             @next()
         else if msg.type == 'pauseOrPlay'
             @pause = !@pause
