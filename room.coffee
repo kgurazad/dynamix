@@ -24,12 +24,14 @@ class Room
         
     next: () ->
         @refreshQuestion()
+        meta = {tournament: @question.tournament, difficulty: @question.difficulty, category: @question.category, subcategory: @question.subcategory}
         self = this
         @interval = global.setInterval () ->
             self.wss.broadcast JSON.stringify {
                 room: self.name,
                 type: 'word',
-                value: self.questionText[self.word]
+                value: self.questionText[self.word],
+                meta: meta
             }
             self.word++
             if self.word == self.questionText.length
@@ -51,9 +53,6 @@ class Room
     refreshQuestion: () ->
         @question = new Question();
         @questionText = @question.text.question.split ' '
-        console.log 'refreshing'
-        console.log @question
-        console.log @questionText
         @word = 0
         return
         
@@ -80,6 +79,7 @@ class Room
                 msg.approved = true
             #
         else if msg.type == 'buzz'
+            console.log @personCurrentlyBuzzing
             if Person.getPerson msg.person != @personCurrentlyBuzzing
                 return
             else
