@@ -67,6 +67,7 @@ class Room
         return
         
     handle: (msg, ws) ->
+        toFinish = false
         if ws.person != Person.getPerson msg.person
             ws.close()
             return
