@@ -25,6 +25,7 @@ class Room
         return
         
     next: () ->
+        @finishQuestion()
         @word = 0
         qIndex = @questions.indexOf @question
         qIndex++
@@ -40,7 +41,7 @@ class Room
         @questionFinished = false
         self = this
         @interval = global.setInterval () ->
-            if self.pause
+            if self.pause || self.questionFinished
                 return
             self.wss.broadcast JSON.stringify {
                 room: self.name,
