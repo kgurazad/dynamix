@@ -23,6 +23,7 @@ class Room
         return
         
     next: () ->
+        @personCurrentlyBuzzing = null
         self = this
         @interval = global.setInterval () ->
             if self.pause
