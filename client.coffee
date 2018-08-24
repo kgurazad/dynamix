@@ -114,6 +114,7 @@ $(document).ready () ->
             $('#question').append msg.value + ' '
             word++
         else if msg.type == 'next'
+            word = 0
             $('#question').text ''
             $('#metadata').empty()
             $('#metadata').append('<li class="breadcrumb-item">'+msg.meta.tournament.year+' '+msg.meta.tournament.name+'</li>')
