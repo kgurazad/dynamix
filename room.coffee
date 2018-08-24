@@ -25,6 +25,7 @@ class Room
         return
         
     next: () ->
+        @word = 0
         qIndex = @questions.indexOf @question
         qIndex++
         qIndex = qIndex % @questions.length

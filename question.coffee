@@ -25,24 +25,17 @@ class Question
         
     @getQuestions: (initSearchParams, room) ->
         queryString = escapeRegExp initSearchParams.query
-        console.log queryString
         categories = split initSearchParams.categories, ','
-        console.log categories
         subcategories = split initSearchParams.subcategories, ','
-        console.log subcategories
         difficulties = split initSearchParams.difficulties, ','
-        console.log difficulties
         tournamentsRaw = split initSearchParams.tournaments, ','
-        console.log tournamentsRaw
         tournaments = {$or: []} # as it is in the mongodb
         searchType = initSearchParams.searchType
-        console.log searchType
         # basically get the same setup as in quizbug2
         searchParams = {$and: []}
 
         for k,v of difficulties
           difficulties[k] = Number v
-        console.log difficulties
     
         if tournamentsRaw.length == 0
             tournaments = {'tournament': {$exists: true}}
@@ -62,7 +55,6 @@ class Question
     
         if tournamentsRaw.length == 1
             tournaments = tournaments.$or[0]
-        console.log tournaments
     
         if searchType == 'qa'
             query.$or = []
@@ -74,7 +66,6 @@ class Question
             query = {'text.answer': {$regex: new RegExp(queryString, 'i')}}
         if queryString == ''
             query = {'text': {$exists: true}}
-        console.log query
 
         searchParams.$and.push query
         searchParams.$and.push tournaments
@@ -90,17 +81,11 @@ class Question
           
         if subcategories.length == 0
             delete searchParams['subcategory']
-    
-        console.log JSON.stringify searchParams
         # yay
         model.count searchParams, (err, count) ->
-            console.log 'there are ' + count  + ' documents found'
             if count > 1331
-                console.log 'aggregating!'
                 aggregateParams = [{$match: searchParams}, {$sample: {size: 1331}}]
-                console.log JSON.stringify aggregateParams
                 model.aggregate aggregateParams, (err, data) ->
-                    console.log 'there are ' + data.length + ' documents to be sent'
                     if err?
                         console.log err.stack
                         return
@@ -110,9 +95,7 @@ class Question
                     return
                 # comment
             else
-                console.log 'regular finding!'
                 model.find searchParams, (err, data) ->
-                    console.log 'there are ' + data.length + ' documents to be sent'
                     if err?
                         console.log err.stack
                         return
