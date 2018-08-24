@@ -66,7 +66,7 @@ class Room
         return
         
     handle: (msg, ws) ->
-        if ws.person != msg.person
+        if ws.person != Person.getPerson msg.person
             ws.close()
             return
         if msg.type == 'next'
