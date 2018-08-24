@@ -21,7 +21,7 @@ app.ws '/', (ws, req) ->
         # reader, you should have seen the old dynamix ws.onmessage function.
         return
     ws.on 'close', () ->
-        rooms[ws.room].handle {room: room, person: ws.person.name, type: 'exit'}, ws
+        rooms[ws.room].handle {room: ws.room, person: ws.person.name, type: 'exit'}, ws
     return
 
 app.get '/style.css', (req, res) ->
