@@ -14,6 +14,13 @@ split = (str, separator) ->
         return []
     str.split separator
 
+mergeSpaces = (arr) ->
+    res = ''
+    for str in arr
+        res += ' '
+        res += str
+    return res.slice 1
+
 
 escapeRegExp = (str) ->
     str.replace /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&'
