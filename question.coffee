@@ -6,7 +6,7 @@ class Question
         }
         @difficulty = 10
         @category = "Science"
-        @subcategory: "Computer Science"
+        @subcategory = "Computer Science"
         @tournament = {
             year: 1970,
             name: "Guru Meditation Cup"
