@@ -79,7 +79,6 @@ class Room
         return
         
     handle: (msg, ws) ->
-        console.log msg
         try
             toFinish = false
             if ws.person != Person.getPerson msg.person
