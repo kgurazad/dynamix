@@ -76,7 +76,7 @@ class Room
         else if msg.type == 'pauseOrPlay'
             @pause = !@pause
         else if msg.type == 'openbuzz'
-            if @personCurrentlyBuzzing?
+            if @personCurrentlyBuzzing
                 msg.approved = false
             else
                 @personCurrentlyBuzzing = Person.getPerson msg.person
