@@ -1,4 +1,5 @@
 {Question} = require './question'
+{Person} = require './person'
 
 class Room
 
