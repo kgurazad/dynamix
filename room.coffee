@@ -89,6 +89,8 @@ class Room
             #
         else if msg.type == 'buzz'
             @pause = false
+            if !@personCurrentlyBuzzing
+                return
             if @personCurrentlyBuzzing.name != msg.person # fix this
                 return
             toFinish = true
