@@ -9,6 +9,12 @@ schema = mongoose.Schema({
 })
 model = mongoose.model('qs',schema,'raw-quizdb-clean')
 
+split = (str, separator) ->  
+    if str.length == 0
+        return []
+    str.split separator
+
+
 escapeRegExp = (str) ->
     str.replace /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&'
 
@@ -20,13 +26,13 @@ class Question
     @getQuestions: (initSearchParams, room) ->
         queryString = escapeRegExp initSearchParams.query
         console.log queryString
-        categories = initSearchParams.categories.split ','
+        categories = split initSearchParams.categories, ','
         console.log categories
-        subcategories = initSearchParams.subcategories.split ','
+        subcategories = split initSearchParams.subcategories, ','
         console.log subcategories
-        difficulties = initSearchParams.difficulties.split ','
+        difficulties = split initSearchParams.difficulties, ','
         console.log difficulties
-        tournamentsRaw = initSearchParams.tournaments.split ','
+        tournamentsRaw = split initSearchParams.tournaments, ','
         console.log tournamentsRaw
         tournaments = {$or: []} # as it is in the mongodb
         searchType = initSearchParams.searchType
