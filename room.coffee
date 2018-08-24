@@ -59,8 +59,9 @@ class Room
         @wss.broadcast JSON.stringify {
             room: @name,
             type: 'finishQuestion',
-            answer: @question.text.answer
+            question: @question
         }
+        global.clearInterval @interval
         @questionFinished = true
         return
         
@@ -93,7 +94,6 @@ class Room
                 # only finish if right, but rn everything is right!
                 toFinish = true
             @personCurrentlyBuzzing = null
-            console.log @personCurrentlyBuzzing
         @wss.broadcast JSON.stringify msg
         @finishQuestion if toFinish
         return

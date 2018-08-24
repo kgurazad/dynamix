@@ -6,6 +6,7 @@ window.addEventListener 'keydown', (e) ->
     
 buzzing = false
 chatting = false
+word = 0
 
 openbuzz = () ->
     $('#main-input').attr 'placeholder', 'buzz...'
@@ -111,6 +112,7 @@ $(document).ready () ->
             $('#answer').after '<div><span color="#dc143c">' + msg.person + '<span> ' + msg.value + '</div>'
         else if msg.type == 'word'
             $('#question').append msg.value + ' '
+            word++
         else if msg.type == 'next'
             $('#question').text ''
             $('#metadata').empty()
@@ -119,7 +121,7 @@ $(document).ready () ->
             $('#metadata').append('<li class="breadcrumb-item">'+msg.meta.category+'</li>')
             $('#metadata').append('<li class="breadcrumb-item">'+msg.meta.subcategory+'</li>')
             $('#metadata').append('<li class="breadcrumb-item">QuizDB ID #'+msg.meta.id+'</li>')
-            $('#answer').text 'Press <code>space</code> to buzz.'
+            $('#answer').text 'Press [space] to buzz.'
         else if msg.type == 'search'
             $('#answer').after '<div><i>' + msg.person + ' searched for questions</i></div>'
         else if msg.type == 'chat'
@@ -127,6 +129,10 @@ $(document).ready () ->
         else if msg.type == 'pauseOrPlay'
             $('#question').append '(+) '
         else if msg.type == 'finishQuestion'
+            text = msg.question.split ' '
+            while word < text.length
+                $('#question').append text[word]
+                word++
             $('#answer').text msg.answer
         return
         
