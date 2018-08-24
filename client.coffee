@@ -69,29 +69,30 @@ pauseOrPlay = () ->
         
 $(document).ready () ->
     $('.hide-on-start').hide()
-    $('#s').click () ->
-        search()
-        return
-    $('#c').click () ->
-        openchat()
-        return
-    $('#n').click () ->
-        next()
-        return
-    $('#p').click () ->
-        pauseOrPlay()
-        return
-    $('#b').click () ->
-        openbuzz()
-        return
-    $('#button-controller').click () ->
-        $('.btn-block').toggle()
-        return    
     
     url = new URL window.location.href
     window.name = url.searchParams.get('name') || "comrade popov"
     window.room = window.location.pathname.substring(1)
     window.ws = new WebSocket 'wss://dynamix.herokuapp.com/'
+    
+    $('#s').click () ->
+        window.ws.send search()
+        return
+    $('#c').click () ->
+        window.ws.send openchat()
+        return
+    $('#n').click () ->
+        window.ws.send next()
+        return
+    $('#p').click () ->
+        window.ws.send pauseOrPlay()
+        return
+    $('#b').click () ->
+        window.ws.send openbuzz()
+        return
+    $('#button-controller').click () ->
+        $('.btn-block').toggle()
+        return    
     
     window.setInterval () ->
         ws.send "ping"
