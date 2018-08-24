@@ -93,6 +93,7 @@ class Room
                 # only finish if right, but rn everything is right!
                 toFinish = true
             @personCurrentlyBuzzing = null
+            console.log @personCurrentlyBuzzing
         @wss.broadcast JSON.stringify msg
         @finishQuestion if toFinish
         return
