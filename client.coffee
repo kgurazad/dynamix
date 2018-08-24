@@ -130,11 +130,11 @@ $(document).ready () ->
             $('#question').append '(+) '
         else if msg.type == 'finishQuestion'
             alert 'question is finished!'
-            text = msg.question.split ' '
+            text = msg.question.text.question.split ' '
             while word < text.length
                 $('#question').append text[word]
                 word++
-            $('#answer').text msg.answer
+            $('#answer').text msg.question.text.answer
         return
         
     window.ws.onmessage  = (event) ->
