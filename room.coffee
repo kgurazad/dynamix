@@ -27,6 +27,8 @@ class Room
         meta = {tournament: @question.tournament, difficulty: @question.difficulty, category: @question.category, subcategory: @question.subcategory}
         self = this
         @interval = global.setInterval () ->
+            if self.pause
+                return
             self.wss.broadcast JSON.stringify {
                 room: self.name,
                 type: 'word',
@@ -71,12 +73,15 @@ class Room
             return
         if msg.type == 'next'
             @next()
+        else if msg.type == 'pauseOrPlay'
+            @pause = !@pause
         else if msg.type == 'openbuzz'
             if @personCurrentlyBuzzing?
                 msg.approved = false
             else
                 @personCurrentlyBuzzing = Person.getPerson msg.person
                 msg.approved = true
+                @pause = true
             #
         else if msg.type == 'buzz'
             console.log @personCurrentlyBuzzing
