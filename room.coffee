@@ -22,6 +22,7 @@ class Room
         @interval = null
         @personCurrentlyBuzzing = null
         @questionFinished = false
+        @pause = false
         return
         
     next: () ->
@@ -66,11 +67,11 @@ class Room
         return  
         
     finishQuestion: () ->
+        @pause = false
         global.clearInterval @interval
         @questionFinished = true
         if !@question
             return
-        console.log 'finishing'
         @wss.broadcast JSON.stringify {
             room: @name,
             type: 'finishQuestion',
