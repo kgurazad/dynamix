@@ -9,6 +9,17 @@ schema = mongoose.Schema({
 })
 model = mongoose.model('qs',schema,'raw-quizdb-clean')
 
+randomize = (array) ->
+    currentIndex = array.length
+    while 0 != currentIndex
+        randomIndex = Math.floor(Math.random() * currentIndex)
+        currentIndex -= 1
+        temporaryValue = array[currentIndex]
+        array[currentIndex] = array[randomIndex]
+        array[randomIndex] = temporaryValue
+    return array
+
+
 split = (str, separator) ->  
     if str.length == 0
         return []
@@ -108,7 +119,7 @@ class Question
                     if err?
                         console.log err.stack
                         return
-                    room.questions = data
+                    room.questions = randomize data
                     room.question = null
                     room.finishQuestion()
                     room.next()
