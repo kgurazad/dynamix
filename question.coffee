@@ -32,6 +32,7 @@ class Question
         
     @getQuestions: (initSearchParams, room) ->
         queryString = escapeRegExp initSearchParams.query
+        query = {}
         categories = split initSearchParams.categories, ','
         subcategories = split initSearchParams.subcategories, ','
         difficulties = split initSearchParams.difficulties, ','
