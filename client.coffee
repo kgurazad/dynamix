@@ -22,7 +22,7 @@ openbuzz = () ->
     JSON.stringify {room: window.room, person: window.name, type: 'openbuzz'}
     
 openchat = () ->
-    $('#main-input').attr 'placeholder', 'buzz...'
+    $('#main-input').attr 'placeholder', 'chat...'
     $('#main-input').val ''
     $('#main-input').show()
     
