@@ -138,21 +138,21 @@ class Question
                 minVal = curVal
                 minStr = x
                 
-        for x in question.answer.accept
+        for x in question.answer.prompt
             curVal = lev answer, x
             if curVal < minVal
                 minVal = curVal
                 minStr = x
                 
-        for x in question.answer.accept
+        for x in question.answer.reject
             curVal = lev answer, x
             if curVal < minVal
                 minVal = curVal
                 minStr = x
         
-        if question.answer.accept.indexOf(minStr) !== -1
+        if question.answer.accept.indexOf(minStr) != -1
             return 0
-        else if question.answer.prompt.indexOf(minStr) !== -1
+        else if question.answer.prompt.indexOf(minStr) != -1
             return 1
         else
             return 2
