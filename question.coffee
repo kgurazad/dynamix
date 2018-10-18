@@ -131,7 +131,7 @@ class Question
         return
     @match: (question, answer) ->
         minStr = question.text.answer.accept[0]
-        minVal = lev answer, minObj
+        minVal = lev answer, minStr
         console.log answer
         for x in question.text.answer.accept
             curVal = lev answer, x
