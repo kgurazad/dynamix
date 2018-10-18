@@ -155,7 +155,7 @@ $(document).ready () ->
             while word < text.length
                 $('#question').append text[word] + ' '
                 word++
-            $('#answer').text msg.question.text.answer
+            $('#answer').text msg.question.text.answer.original
         return
         
     window.ws.onmessage  = (event) ->
