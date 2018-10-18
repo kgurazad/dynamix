@@ -134,25 +134,29 @@ class Question
         minVal = lev answer, minStr
         console.log answer
         for x in question.text.answer.accept
-            curVal = lev answer, x
+            curVal = lev answer, x.toLowerCase()
             console.log x + ' ' + curVal
             if curVal < minVal
                 minVal = curVal
                 minStr = x
                 
         for x in question.text.answer.prompt
-            curVal = lev answer, x
+            curVal = lev answer, x.toLowerCase()
             if curVal < minVal
                 minVal = curVal
                 minStr = x
                 
         for x in question.text.answer.reject
-            curVal = lev answer, x
+            curVal = lev answer, x.toLowerCase()
             if curVal < minVal
                 minVal = curVal
                 minStr = x
         
-        if question.text.answer.accept.indexOf(minStr) != -1
+        if minVal > 9
+            return 2
+        else if minVal > 6
+            return 1    
+        else if question.text.answer.accept.indexOf(minStr) != -1
             return 0
         else if question.text.answer.prompt.indexOf(minStr) != -1
             return 1
