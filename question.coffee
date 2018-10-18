@@ -129,11 +129,13 @@ class Question
                 # comment
             return
         return
-    match: (question, answer) ->
+    @match: (question, answer) ->
         minStr = question.answer.accept[0]
         minVal = lev answer, minObj
+        console.log answer
         for x in question.answer.accept
             curVal = lev answer, x
+            console.log x + ' ' + curVal
             if curVal < minVal
                 minVal = curVal
                 minStr = x
