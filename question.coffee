@@ -5,9 +5,10 @@ schema = mongoose.Schema({
     difficulty: Number,
     tournament: Object,
     category: String,
-    subcategory: String
+    subcategory: String,
+    id: Number
 })
-model = mongoose.model('qs',schema,'raw-quizdb-clean')
+model = mongoose.model('qs',schema,'parsed-quizdb')
 
 randomize = (array) ->
     currentIndex = array.length
@@ -101,10 +102,10 @@ class Question
         if subcategories.length == 0
             delete searchParams['subcategory']
         # yay
-        model.count searchParams, (err, count) ->
+        model.count(searchParams).read('sp').exec (err, count) ->
             if count > 1331
                 aggregateParams = [{$match: searchParams}, {$sample: {size: 1331}}]
-                model.aggregate aggregateParams, (err, data) ->
+                model.aggregate(aggregateParams).read('sp').exec (err, data) ->
                     if err?
                         console.log err.stack
                         return
@@ -115,7 +116,7 @@ class Question
                     return
                 # comment
             else
-                model.find searchParams, (err, data) ->
+                model.find(searchParams).read('sp').exec (err, data) ->
                     if err?
                         console.log err.stack
                         return
