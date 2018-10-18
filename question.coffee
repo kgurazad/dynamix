@@ -130,31 +130,31 @@ class Question
             return
         return
     @match: (question, answer) ->
-        minStr = question.answer.accept[0]
+        minStr = question.text.answer.accept[0]
         minVal = lev answer, minObj
         console.log answer
-        for x in question.answer.accept
+        for x in question.text.answer.accept
             curVal = lev answer, x
             console.log x + ' ' + curVal
             if curVal < minVal
                 minVal = curVal
                 minStr = x
                 
-        for x in question.answer.prompt
+        for x in question.text.answer.prompt
             curVal = lev answer, x
             if curVal < minVal
                 minVal = curVal
                 minStr = x
                 
-        for x in question.answer.reject
+        for x in question.text.answer.reject
             curVal = lev answer, x
             if curVal < minVal
                 minVal = curVal
                 minStr = x
         
-        if question.answer.accept.indexOf(minStr) != -1
+        if question.text.answer.accept.indexOf(minStr) != -1
             return 0
-        else if question.answer.prompt.indexOf(minStr) != -1
+        else if question.text.answer.prompt.indexOf(minStr) != -1
             return 1
         else
             return 2
