@@ -11,7 +11,7 @@ class Room
         # ttl = 1 week
         @name = args.name
         @question = args.question || new Question()
-        @readSpeed = args.readSpeed || 200
+        @readSpeed = args.readSpeed || 120
         @timeout = args.timeout || 6000
         @people = args.people || {}
         @wss = args.wss
@@ -108,6 +108,7 @@ class Room
                 if @personCurrentlyBuzzing.name != msg.person # fix this
                     return
                 toFinish = true
+                msg.verdict = Question.match @question, msg.value
                 @personCurrentlyBuzzing = null 
             @wss.broadcast JSON.stringify msg
             @finishQuestion() if toFinish

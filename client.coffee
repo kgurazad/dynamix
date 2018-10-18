@@ -129,7 +129,8 @@ $(document).ready () ->
             else
                 $('#answer').after '<div><i>' + msg.person + ' attempted an invalid buzz</i></div>'
         else if msg.type == 'buzz'
-            $('#answer').after '<div><strong>' + msg.person + '</strong> ' + msg.value + '</div>'
+            $('#answer').after '<div><span style="color:#3e89b4">' + msg.person + '</strong> ' + msg.value + ' ' + msg.verdict + '</div>'
+            
         else if msg.type == 'word'
             $('#question').append msg.value + ' '
             word++

@@ -1,5 +1,6 @@
 mongoose = require 'mongoose'
 mongoose.connect process.env.DB
+lev = require 'js-levenshtein'
 schema = mongoose.Schema({
     text: Object,
     difficulty: Number,
@@ -128,7 +129,33 @@ class Question
                 # comment
             return
         return
-
+    match: (question, answer) ->
+        minStr = question.answer.accept[0]
+        minVal = lev answer, minObj
+        for x in question.answer.accept
+            curVal = lev answer, x
+            if curVal < minVal
+                minVal = curVal
+                minStr = x
+                
+        for x in question.answer.accept
+            curVal = lev answer, x
+            if curVal < minVal
+                minVal = curVal
+                minStr = x
+                
+        for x in question.answer.accept
+            curVal = lev answer, x
+            if curVal < minVal
+                minVal = curVal
+                minStr = x
         
+        if question.answer.accept.indexOf(minStr) !== -1
+            return 0
+        else if question.answer.prompt.indexOf(minStr) !== -1
+            return 1
+        else
+            return 2
+        return 2
         
 exports.Question = Question
