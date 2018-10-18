@@ -152,6 +152,9 @@ class Question
                 minVal = curVal
                 minStr = x
         
+        minVal /= minStr.length
+        console.log minVal
+        console.log minStr
         if minVal > 9
             return 2
         else if minVal > 6
