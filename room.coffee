@@ -100,6 +100,14 @@ class Room
                     @personCurrentlyBuzzing = Person.getPerson msg.person
                     msg.approved = true
                     @pause = true
+                    @buzzTimeout = global.setTimeout () ->
+                        if @personCurrentlyBuzzing
+                            toFinish = true
+                            msg.verdict = 3
+                            @personCurrentlyBuzzing = null
+                            @wss.broadcast
+                        return
+                    , @timeout
                 #
             else if msg.type == 'buzz'
                 @pause = false
