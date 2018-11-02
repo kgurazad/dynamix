@@ -13,6 +13,7 @@ app.ws '/', (ws, req) ->
     ws.person = Person.getPerson 'guest'
     ws.room = ''
     ws.on 'message', (msg) ->
+        console.log msg
         if msg == "ping"
             ws.send "pong"
             return
