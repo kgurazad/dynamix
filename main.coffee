@@ -78,8 +78,8 @@ htmlEncode = (text) -> # beware, messy regexes ahead
     return text
 
 wss.broadcast = (data) ->
-    data[person] = htmlEncode data[person] if data[person]
-    data[value] = htmlEncode data[value] if data[value]
+    data['person'] = htmlEncode data['person'] if data['person']
+    data['value'] = htmlEncode data['value'] if data['value']
     wss.getWss().clients.forEach (ws) ->
         ws.send data
         return
