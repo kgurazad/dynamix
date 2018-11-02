@@ -101,7 +101,7 @@ class Room
                     console.log 'openbuzz by ' + @personCurrentlyBuzzing
                     msg.approved = true
                     @pause = true
-                    @buzzTimeout = global.setTimeout () ->
+                    setTimeout () ->
                         if @personCurrentlyBuzzing
                             toFinish = true
                             msg.verdict = 3
@@ -110,6 +110,7 @@ class Room
                             @personCurrentlyBuzzing = null
                         return
                     , @timeout
+                    console.log 'set timeout in case they take too long -_-'
                 #
             else if msg.type == 'buzz'
                 @pause = false
