@@ -109,6 +109,7 @@ class Room
                             self.wss.broadcast JSON.stringify {room: self.name, person: self.personCurrentlyBuzzing, type: 'buzz', value: '', verdict: 3}
                             console.log 'timed out ' + self.personCurrentlyBuzzing + ' because he took ' + self.timeout + 'ms. smh'
                             self.personCurrentlyBuzzing = null
+                            self.pause = false
                         return
                     , @timeout
                     console.log 'set timeout in case they take too long -_- ' + @timeout
