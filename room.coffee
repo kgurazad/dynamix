@@ -97,7 +97,7 @@ class Room
                 if @personCurrentlyBuzzing || @questionFinished
                     msg.approved = false
                 else
-                    @personCurrentlyBuzzing = Person.getPerson msg.person
+                    @personCurrentlyBuzzing = msg.person
                     console.log 'openbuzz by ' + @personCurrentlyBuzzing
                     msg.approved = true
                     @pause = true
