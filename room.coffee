@@ -106,7 +106,7 @@ class Room
                         console.log 'executing timeout'
                         if self.personCurrentlyBuzzing
                             msg.verdict = 3
-                            self.wss.broadcast {room: self.name, person: self.personCurrentlyBuzzing, type: 'buzz', value: '', verdict: 3}
+                            self.wss.broadcast JSON.stringify {room: self.name, person: self.personCurrentlyBuzzing, type: 'buzz', value: '', verdict: 3}
                             console.log 'timed out ' + self.personCurrentlyBuzzing + ' because he took ' + self.timeout + 'ms. smh'
                             self.personCurrentlyBuzzing = null
                         return
