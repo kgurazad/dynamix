@@ -98,6 +98,7 @@ class Room
                     msg.approved = false
                 else
                     @personCurrentlyBuzzing = Person.getPerson msg.person
+                    console.log 'openbuzz by ' + @personCurrentlyBuzzing
                     msg.approved = true
                     @pause = true
                     @buzzTimeout = global.setTimeout () ->
