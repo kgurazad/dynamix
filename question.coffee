@@ -129,13 +129,12 @@ class Question
                 # comment
             return
         return
+        
     @match: (question, answer) ->
         minStr = question.text.answer.accept[0]
         minVal = lev answer, minStr
-        console.log answer
         for x in question.text.answer.accept
             curVal = lev answer, x.toLowerCase()
-            console.log x + ' ' + curVal
             if curVal < minVal
                 minVal = curVal
                 minStr = x
@@ -153,8 +152,6 @@ class Question
                 minStr = x
         
         minVal /= minStr.length
-        console.log minVal
-        console.log minStr
         if minVal > 9
             return 2
         else if minVal > 6

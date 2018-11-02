@@ -104,8 +104,9 @@ class Room
                         if @personCurrentlyBuzzing
                             toFinish = true
                             msg.verdict = 3
+                            @wss.broadcast {room: @name, person: @personCurrentlyBuzzing, type: 'buzz', value: '', verdict: 3}
+                            console.log 'timed out ' + @personCurrentlyBuzzing + ' because he took ' + @timeout + 'ms. smh'
                             @personCurrentlyBuzzing = null
-                            @wss.broadcast
                         return
                     , @timeout
                 #
