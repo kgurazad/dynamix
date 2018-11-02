@@ -101,12 +101,14 @@ class Room
                     console.log 'openbuzz by ' + @personCurrentlyBuzzing
                     msg.approved = true
                     @pause = true
+                    self = this
                     setTimeout () ->
-                        if @personCurrentlyBuzzing
+                        console.log 'executing timeout'
+                        if self.personCurrentlyBuzzing
                             msg.verdict = 3
-                            @wss.broadcast {room: @name, person: @personCurrentlyBuzzing, type: 'buzz', value: '', verdict: 3}
-                            console.log 'timed out ' + @personCurrentlyBuzzing + ' because he took ' + @timeout + 'ms. smh'
-                            @personCurrentlyBuzzing = null
+                            self.wss.broadcast {room: self.name, person: self.personCurrentlyBuzzing, type: 'buzz', value: '', verdict: 3}
+                            console.log 'timed out ' + self.personCurrentlyBuzzing + ' because he took ' + self.timeout + 'ms. smh'
+                            self.personCurrentlyBuzzing = null
                         return
                     , @timeout
                     console.log 'set timeout in case they take too long -_- ' + @timeout
