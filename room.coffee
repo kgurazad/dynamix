@@ -103,14 +103,13 @@ class Room
                     @pause = true
                     setTimeout () ->
                         if @personCurrentlyBuzzing
-                            toFinish = true
                             msg.verdict = 3
                             @wss.broadcast {room: @name, person: @personCurrentlyBuzzing, type: 'buzz', value: '', verdict: 3}
                             console.log 'timed out ' + @personCurrentlyBuzzing + ' because he took ' + @timeout + 'ms. smh'
                             @personCurrentlyBuzzing = null
                         return
                     , @timeout
-                    console.log 'set timeout in case they take too long -_-'
+                    console.log 'set timeout in case they take too long -_- ' + @timeout
                 #
             else if msg.type == 'buzz'
                 @pause = false
