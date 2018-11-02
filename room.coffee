@@ -118,7 +118,7 @@ class Room
                 @pause = false
                 if !@personCurrentlyBuzzing
                     return
-                if @personCurrentlyBuzzing.name != msg.person # fix this
+                if @personCurrentlyBuzzing != msg.person # fix this
                     return
                 toFinish = true
                 msg.verdict = Question.match @question, msg.value
