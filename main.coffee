@@ -79,8 +79,6 @@ htmlEncode = (text) -> # beware, messy regexes ahead
     return text
 
 wss.broadcast = (data) ->
-    data = htmlEncode data
-    console.log data
     wss.getWss().clients.forEach (ws) ->
         ws.send data
         return
