@@ -23,15 +23,20 @@ class Room
         @personCurrentlyBuzzing = null
         @questionFinished = false
         @pause = false
+        @alreadyBuzzed = []
+        @inPower = false;
         return
         
     next: () ->
         @finishQuestion()
+        @questionEnded = false
+        @alreadyBuzzed = []
         @word = 0
         qIndex = @questions.indexOf @question
         qIndex++
         qIndex = qIndex % @questions.length
         @question = @questions[qIndex]
+        @inPower = true if @question.text.question.includes '*'
         @questionText = @question.text.question.split ' '
         @wss.broadcast JSON.stringify {
             room: @name,
@@ -40,14 +45,17 @@ class Room
         }
         @personCurrentlyBuzzing = null
         @questionFinished = false
+        @finishTimeout = null
         self = this
         @interval = global.setInterval () ->
             if self.pause || self.questionFinished
                 return
+            toSend = self.questionTest[self.word]
+            self.inPower = false if toSend.includes '*'
             self.wss.broadcast JSON.stringify {
                 room: self.name,
                 type: 'word',
-                value: self.questionText[self.word]
+                value: toSend
             }
             self.word++
             if self.word == self.questionText.length
@@ -56,8 +64,9 @@ class Room
                     type: 'endedQuestion',
                     timeout: self.timeout
                 }
+                self.questionEnded = true
                 global.clearInterval self.interval
-                global.setTimeout () ->
+                self.finishTimeout = global.setTimeout () ->
                     self.finishQuestion()
                 , self.timeout
             # read word and increment
@@ -82,10 +91,9 @@ class Room
     handle: (msg, ws) ->
        try
             toFinish = false
-            if ws.person != Person.getPerson msg.person
-                ws.close()
-                return
-            if msg.type == 'next'
+            if msg.type == 'entry'
+                @people[msg.person] = 0
+            else if msg.type == 'next'
                 @readSpeed = msg.readSpeed
                 msg = {}
                 @next()
@@ -94,25 +102,25 @@ class Room
             else if msg.type == 'search'
                 Question.getQuestions msg.searchParameters, this
             else if msg.type == 'openbuzz'
-                if @personCurrentlyBuzzing || @questionFinished
+                if @personCurrentlyBuzzing || @questionFinished || @alreadyBuzzed.indexOf msg.person != -1
                     msg.approved = false
                 else
                     @personCurrentlyBuzzing = msg.person
-                    console.log 'openbuzz by ' + @personCurrentlyBuzzing
+                    @alreadyBuzzed.push msg.person
                     msg.approved = true
                     @pause = true
                     self = this
-                    setTimeout () ->
+                    @buzzTimeout = global.setTimeout () ->
                         console.log 'executing timeout'
-                        if self.personCurrentlyBuzzing
+                        if self.personCurrentlyBuzzing == @x
                             msg.verdict = 3
+                            self.people[self.personCurrentlyBuzzing] -= 5 if !self.questionEnded
                             self.wss.broadcast JSON.stringify {room: self.name, person: self.personCurrentlyBuzzing, type: 'buzz', value: '', verdict: 3}
-                            console.log 'timed out ' + self.personCurrentlyBuzzing + ' because he took ' + self.timeout + 'ms. smh'
                             self.personCurrentlyBuzzing = null
                             self.pause = false
                         return
                     , @timeout
-                    console.log 'set timeout in case they take too long -_- ' + @timeout
+                    @buzzTimeout.x = @personCurrentlyBuzzing
                 #
             else if msg.type == 'buzz'
                 @pause = false
@@ -122,6 +130,11 @@ class Room
                     return
                 toFinish = true
                 msg.verdict = Question.match @question, msg.value
+                if msg.verdict == 0
+                    @people[@personCurrentlyBuzzing] += 15 if @inPower
+                    @people[@personCurrentlyBuzzing] += 10 else
+                else if msg.verdict == 1
+                    @people[@personCurrentlyBuzzing] -= 5 if !@questionEnded
                 @personCurrentlyBuzzing = null 
             @wss.broadcast JSON.stringify msg
             @finishQuestion() if toFinish
