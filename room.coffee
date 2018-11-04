@@ -29,6 +29,7 @@ class Room
         
     next: () ->
         console.log @people
+        global.clearTimeout(@finishTimeout)
         @finishQuestion()
         @questionEnded = false
         @alreadyBuzzed = []
