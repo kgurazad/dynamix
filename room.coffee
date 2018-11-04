@@ -131,8 +131,11 @@ class Room
                 toFinish = true
                 msg.verdict = Question.match @question, msg.value
                 if msg.verdict == 0
-                    @people[@personCurrentlyBuzzing] += 15 if @inPower
-                    @people[@personCurrentlyBuzzing] += 10 else
+                    if @inPower
+                        @people[@personCurrentlyBuzzing] += 15
+                    else
+                        @people[@personCurrentlyBuzzing] += 10
+                    #
                 else if msg.verdict == 1
                     @people[@personCurrentlyBuzzing] -= 5 if !@questionEnded
                 @personCurrentlyBuzzing = null 
