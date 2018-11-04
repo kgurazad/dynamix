@@ -47,7 +47,7 @@ rooms[''] = { # a root handler, yay
     handle: (msg, ws) ->
         try
             if msg.type == 'entry'
-                ws.person = Person.getPerson(msg.person) || Person.getPerson('guest')
+                ws.person = msg.person
                 ws.room = msg.room
                 if !rooms[msg.room]
                     args = {name: msg.room, wss: wss}
@@ -59,6 +59,7 @@ rooms[''] = { # a root handler, yay
                     person: msg.person,
                     type: 'entry'
                 }
+                rooms[msg.room].handle msg
             return
         catch e
             # don't even do anything
