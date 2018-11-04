@@ -28,6 +28,7 @@ class Room
         return
         
     next: () ->
+        console.log @people
         @finishQuestion()
         @questionEnded = false
         @alreadyBuzzed = []
@@ -50,7 +51,7 @@ class Room
         @interval = global.setInterval () ->
             if self.pause || self.questionFinished
                 return
-            toSend = self.questionTest[self.word]
+            toSend = self.questionText[self.word]
             self.inPower = false if toSend.includes '*'
             self.wss.broadcast JSON.stringify {
                 room: self.name,
