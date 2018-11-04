@@ -105,7 +105,7 @@ class Room
             else if msg.type == 'search'
                 Question.getQuestions msg.searchParameters, this
             else if msg.type == 'openbuzz'
-                if @personCurrentlyBuzzing || @questionFinished || @alreadyBuzzed.indexOf msg.person != -1
+                if @personCurrentlyBuzzing? || @questionFinished || @alreadyBuzzed.indexOf msg.person != -1
                     console.log @personCurrentlyBuzzing
                     console.log @questionFinished
                     console.log @alreadyBuzzed.indexOf msg.person
