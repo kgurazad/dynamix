@@ -53,12 +53,6 @@ rooms[''] = { # a root handler, yay
                     args = {name: msg.room, wss: wss}
                     rooms[msg.room] = new Room args 
                 rooms[msg.room][Person.getPerson(msg.person) || Person.getPerson('guest')] = 0
-                wss.broadcast JSON.stringify {
-                    timestamp: msg.timestamp,
-                    room: msg.room,
-                    person: msg.person,
-                    type: 'entry'
-                }
                 rooms[msg.room].handle msg
             return
         catch e
