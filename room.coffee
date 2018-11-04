@@ -120,7 +120,8 @@ class Room
                         console.log 'executing timeout'
                         if self.personCurrentlyBuzzing == @x
                             msg.verdict = 3
-                            self.people[self.personCurrentlyBuzzing] -= 5 if !self.questionEnded
+                            if !self.questionEnded
+                                self.people[self.personCurrentlyBuzzing] = self.people[self.personCurrentlyBuzzing] - 5
                             self.wss.broadcast JSON.stringify {room: self.name, person: self.personCurrentlyBuzzing, type: 'buzz', value: '', verdict: 3}
                             self.personCurrentlyBuzzing = null
                             self.pause = false
@@ -138,9 +139,9 @@ class Room
                 msg.verdict = Question.match @question, msg.value
                 if msg.verdict == 0
                     if @inPower
-                        @people[@personCurrentlyBuzzing] += 15
+                        @people[@personCurrentlyBuzzing] = @people[@personCurrentlyBuzzing] + 15
                     else
-                        @people[@personCurrentlyBuzzing] += 10
+                        @people[@personCurrentlyBuzzing] = @people[@personCurrentlyBuzzing] + 10
                     #
                 else if msg.verdict == 1
                     @people[@personCurrentlyBuzzing] -= 5 if !@questionEnded
