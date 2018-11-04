@@ -91,11 +91,8 @@ class Room
         
     handle: (msg, ws) ->
        try
-            console.log msg.type + " thonk"
             if msg.type == 'entry'
                 @people[msg.person] = 0
-                console.log 'added ' + msg.person
-                console.log @people
             else if msg.type == 'next'
                 @readSpeed = msg.readSpeed
                 msg = {}
@@ -137,12 +134,16 @@ class Room
                 toFinish = true
                 msg.verdict = Question.match @question, msg.value
                 if msg.verdict == 0
+                    console.log 'correct!'
                     if @inPower
+                        console.log 'power!'
                         @people[@personCurrentlyBuzzing] = @people[@personCurrentlyBuzzing] + 15
                     else
+                        console.log 'get'
                         @people[@personCurrentlyBuzzing] = @people[@personCurrentlyBuzzing] + 10
                     #
                 else if msg.verdict == 1
+                    console.log 'neg LUL'
                     @people[@personCurrentlyBuzzing] -= 5 if !@questionEnded
                 @personCurrentlyBuzzing = null 
             @wss.broadcast JSON.stringify msg
