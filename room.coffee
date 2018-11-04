@@ -91,7 +91,7 @@ class Room
         
     handle: (msg, ws) ->
        try
-            console.log msg
+            console.log msg.type + " thonk"
             if msg.type == 'entry'
                 @people[msg.person] = 0
                 console.log 'added ' + msg.person
@@ -117,7 +117,6 @@ class Room
                     @pause = true
                     self = this
                     @buzzTimeout = global.setTimeout () ->
-                        console.log 'executing timeout'
                         if self.personCurrentlyBuzzing == @x
                             msg.verdict = 3
                             if !self.questionEnded
