@@ -91,7 +91,7 @@ class Room
         
     handle: (msg, ws) ->
        try
-            toFinish = false
+            console.log msg
             if msg.type == 'entry'
                 @people[msg.person] = 0
                 console.log 'added ' + msg.person
