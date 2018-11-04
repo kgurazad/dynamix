@@ -94,6 +94,8 @@ class Room
             toFinish = false
             if msg.type == 'entry'
                 @people[msg.person] = 0
+                console.log 'added ' + msg.person
+                console.log @people
             else if msg.type == 'next'
                 @readSpeed = msg.readSpeed
                 msg = {}
@@ -104,6 +106,7 @@ class Room
                 Question.getQuestions msg.searchParameters, this
             else if msg.type == 'openbuzz'
                 if @personCurrentlyBuzzing || @questionFinished || @alreadyBuzzed.indexOf msg.person != -1
+                    console.log @alreadyBuzzed.indexOf msg.person
                     msg.approved = false
                 else
                     @personCurrentlyBuzzing = msg.person
